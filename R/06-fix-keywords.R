@@ -1,0 +1,51 @@
+#' Fix keywords
+#'
+#' After choosing a name for keywords that have more than one
+#' in a spreadsheet, join those results back in. You also need to
+#' fix cases where the same keyword is given more than one rank.
+#'
+#' @param consolidated_unnested_df output of `nyt_clean_keywords()`
+#' @param multi_names_output_path folder to find corrected keyword values csv
+#' @return an unnested df with consolidated, non-duplicate keyword values and names
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' nyt_fix_keywords(consolidated_unnested_df)
+#' }
+nyt_fix_keywords <- function(consolidated_unnested_df,
+                             multi_names_output_path = "single_named_values") {
+
+  if (!rlang::is_empty(list.files(multi_names_output_path))) {
+
+    fn <- here::here(multi_names_output_path, "single_named_keywords.csv")
+    revised_keyword_names <- readr::read_csv(fn) %>%
+      dplyr::distinct()
+
+    unnested_df_single_names <- consolidated_unnested_df %>%
+      dplyr::left_join(revised_keyword_names, by = "value") %>%
+      dplyr::mutate(
+        name = dplyr::if_else(is.na(new_name), name, new_name)
+      ) %>%
+      dplyr::select(-new_name)
+
+  } else {
+
+    unnested_df_single_names <- consolidated_unnested_df
+
+  }
+
+  unnested_df_values_fixed <- unnested_df_single_names %>%
+    # remove articles with a keyword like 'india' repeated many times with different rank
+    dplyr::group_by_at(dplyr::vars(tidyselect::one_of(names(.)[names(.) != "rank"]))) %>%
+    dplyr::filter(rank == min(rank)) %>%
+    dplyr::ungroup() %>%
+    #redo rankings after removing some repeated keywords
+    dplyr::select(-rank) %>%
+    dplyr::group_by(url) %>%
+    dplyr::mutate(rank = dplyr::row_number()) %>%
+    dplyr::ungroup()
+
+  return(unnested_df_values_fixed)
+
+}

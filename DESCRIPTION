@@ -1,16 +1,40 @@
 Package: nytindia
-Title: What the Package Does (One Line, Title Case)
+Title: Prepare and visualize India-tagged data from the NYT Article Search API
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Sean",
+           family = "Angiolillo",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "sean.angiolillo@gmail.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+Description: This package includes functions to query the 
+    Article Search API of The New York Times for articles with 
+    an India location keyword. It includes functions to prepare 
+    this data to be ready for analysis and visualization. 
+    It includes a shiny app to interact with the output datasets. 
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
+Imports: 
+    dplyr,
+    glue,
+    httr,
+    jsonlite,
+    lubridate,
+    magrittr,
+    readr,
+    rlang,
+    stringr,
+    tibble,
+    purrr,
+    tidyr,
+    tidyselect,
+    here
+Suggests: 
+    shiny,
+    testthat (>= 2.0.0)
+Config/testthat/edition: 2
+Depends: 
+    R (>= 2.10)
