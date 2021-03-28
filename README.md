@@ -15,8 +15,10 @@ dataset.
 ## Installation
 
 The impetus to re-structure what was a data analysis project as a
-package was: - to simplify updating the dataset over time - to learn how
-to make a package.
+package was:
+
+-   to simplify updating the dataset over time
+-   to learn how to make a package.
 
 Accordingly, this is mostly an internal package, but it can be installed
 from GitHub:

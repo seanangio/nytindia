@@ -22,6 +22,7 @@ This package includes functions to query the Article Search API of The New York 
 ## Installation
 
 The impetus to re-structure what was a data analysis project as a package was: 
+
 - to simplify updating the dataset over time
 - to learn how to make a package.
 
