@@ -32,7 +32,7 @@ library(leaflet.extras)
 
 # read data sources -------------------------------------------------------
 
-full_nested_df <- read_rds("data/nested_sample.rds") # full_nested_df.rds nested_sample.rds
+full_nested_df <- read_rds("data/full_nested_df.rds") # full_nested_df.rds nested_sample.rds
 full_unnested_df <- full_nested_df %>% unnest(keywords)
 govt <- read_csv("data/govt.csv")
 

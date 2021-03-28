@@ -51,6 +51,13 @@ It queries up to the closest completed month.
 Once you have your data from the API, there is a pipeline of functions
 available to prepare the data.
 
+## Run the Shiny App
+
+``` r
+library(nytindia)
+runExample("nyt_india_app")
+```
+
 You’ll still need to render `README.Rmd` regularly, to keep `README.md`
 up-to-date. `devtools::build_readme()` is handy for this. You could also
 use GitHub Actions to re-render `README.Rmd` every time you push. An
