@@ -37,6 +37,7 @@ full_unnested_df <- full_nested_df %>% unnest(keywords)
 govt <- read_csv("data/govt.csv")
 
 # static UI choices -------------------------------------------------------
+app_title <- "India in The New York Times"
 
 desks <- full_nested_df %>%
   count(news_desk, sort = TRUE) %>%

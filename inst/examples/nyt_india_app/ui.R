@@ -8,7 +8,7 @@ library(waiter)
 tagList(
     tags$head(tags$script(type="text/javascript", src = "code.js")),
 
-navbarPage("India in The New York Times",
+navbarPage(app_title,
            id = "tab",
            position = "fixed-top",
            theme = "my.css",
@@ -234,33 +234,6 @@ navbarPage("India in The New York Times",
              mainPanel(
                  girafeOutput("keyword_heatmap") %>% withMySpinner()
              )
-    ),
-
-
-# analysis tab ------------------------------------------------------------
-
-    tabPanel("Analysis",
-             fluidRow(
-                 column(width = 2),
-                 column(width = 8,
-                        #includeMarkdown("analysis.md"),
-                        ),
-                 column(width = 2)
-             )
-    ),
-
-
-# technical details tab ---------------------------------------------------
-
-    tabPanel("Technical Details",
-             fluidRow(
-                 column(width = 2),
-                 column(width = 8,
-                        #includeMarkdown("technical_details.md"),
-                 ),
-                 column(width = 2)
-             )
     )
-
 )
 )
