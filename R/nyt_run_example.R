@@ -10,11 +10,11 @@
 #' @examples
 #' ## Only run this example in interactive R sessions
 #' if (interactive()) {
-#'   runExample("nyt_india_app")
-#'   runExample("lookup_table_app")
+#'   nyt_run_example("nyt_india_app")
+#'   nyt_run_example("lookup_table_app")
 #' }
 #' @export
-runExample <- function(example) {
+nyt_run_example <- function(example) {
 
   validExamples <-
     paste0(
