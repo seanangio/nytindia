@@ -4,12 +4,21 @@
 \alias{nyt_write_final_nested_df}
 \title{Write final nested dataset for shiny app}
 \usage{
-nyt_write_final_nested_df(full_nested_df, shiny_app_path = "nyt_shiny_app")
+nyt_write_final_nested_df(
+  full_nested_df,
+  shiny_app_path = "nyt_shiny_app",
+  sample = FALSE,
+  sample_pct = 0.1
+)
 }
 \arguments{
 \item{full_nested_df}{output of \code{nyt_re_nest_keywords()}}
 
 \item{shiny_app_path}{name of shiny app folder}
+
+\item{sample}{whether to write a smaller sample file from full_nested_df}
+
+\item{sample_pct}{percentage of rows to use in the sample}
 }
 \value{
 written nested dataframe (and sample)

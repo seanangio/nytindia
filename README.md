@@ -1,5 +1,5 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd. Please edit that file. You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/master/examples>. -->
 
 # nytindia - Prepare and visualize India-tagged data from the NYT Article Search API
 
@@ -10,7 +10,7 @@ This package includes functions to query the Article Search API of The
 New York Times for articles with an India location keyword. It includes
 functions to prepare this data to be ready for analysis and
 visualization. It includes a shiny app to interact with the output
-datasets.
+dataset.
 
 ## Installation
 
@@ -49,24 +49,31 @@ It queries up to the closest completed month.
 ## Prepare Data
 
 Once you have your data from the API, there is a pipeline of functions
-available to prepare the data.
+available to prepare the data. The first time through preparing the
+data, there are a few steps that require a pause in the pipeline:
+
+-   renaming news desks
+-   renaming keyword values
+-   renaming categories of keywords
+-   geocoding locations
+
+However, once you have these steps complete and just want to update the
+dataset with more recent data, you can just run:
+
+``` r
+nyt_build_data()
+```
 
 ## Run the Shiny App
 
+The package includes the shiny app below to visualize the results in
+many ways.
+
 ``` r
-library(nytindia)
-runExample("nyt_india_app")
+nyt_run_example("nyt_india_app")
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/master/examples>.
+## Analysis
 
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+You can find analysis of the data and a summary of technical details in
+the package vignettes.
