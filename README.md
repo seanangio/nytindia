@@ -6,16 +6,17 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-This package includes functions to query the Article Search API of The
-New York Times for articles with an India location keyword. It includes
-functions to prepare this data to be ready for analysis and
-visualization. It includes a shiny app to interact with the output
-dataset.
+This package includes functions to query the [Article Search API of The
+New York
+Times](https://developer.nytimes.com/docs/articlesearch-product/1/overview)
+for articles with an “India” location keyword. It includes functions to
+prepare this data to be ready for analysis and visualization, as well as
+a shiny app to interact with the output dataset.
 
 ## Installation
 
-The impetus to re-structure what was a data analysis project as a
-package was:
+The impetus to re-structure what was originally a data analysis project
+as a package was:
 
 -   to simplify updating the dataset over time
 -   to learn how to make a package.
@@ -59,8 +60,10 @@ data, there are a few steps that require a pause in the pipeline:
 -   renaming categories of keywords
 -   geocoding locations
 
-However, once you have these steps complete and just want to update the
-dataset with more recent data, you can just run:
+The first three are optional, but the geocoding must be done.
+
+Once you have these steps complete and just want to update the dataset
+with more recent data, you can just run:
 
 ``` r
 nyt_build_data()
