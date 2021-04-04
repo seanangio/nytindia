@@ -27,10 +27,13 @@ written nested dataframe (and sample)
 Write final dataset, along with a sample, to the folder
 that will house the app. The unnested df gets created in the app
 so you don't need to create it here. It also writes the built-in
-\code{govt} dataset to the same location.
+\code{govt} dataset to the same location. Once you have those datasets,
+copy-paste into the same folder the files global.R, server.R,
+ui.R, about.md, and the www directory found in the
+inst/examples/nyt_india_app folder.
 }
 \examples{
 \dontrun{
-nyt_write_final_dataset(full_nested_df)
+nyt_write_final_nested_df(full_nested_df)
 }
 }
