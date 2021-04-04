@@ -5,22 +5,22 @@
 \alias{nyt_clean_api_tbl}
 \title{Bind monthly rds files into single nested df and perform initial cleaning}
 \usage{
-nyt_bind_api_files(api_data_path = "api_data")
+nyt_bind_api_files(api_data_folder = "api_data")
 
 nyt_clean_api_tbl(
   api_df,
-  news_desk_input_path = "news_desk_lookup_input",
-  news_desk_output_path = "renamed_news_desks"
+  news_desk_input_folder = "news_desk_lookup_input",
+  news_desk_output_folder = "renamed_news_desks"
 )
 }
 \arguments{
-\item{api_data_path}{name of folder where to write api data}
+\item{api_data_folder}{name of folder where to write API data}
 
 \item{api_df}{tbl resulting from \code{nyt_bind_api_files()}}
 
-\item{news_desk_input_path}{folder name to write news desks pre-cleaning}
+\item{news_desk_input_folder}{folder name to write news desks pre-cleaning}
 
-\item{news_desk_output_path}{folder to find news desks post-cleaning}
+\item{news_desk_output_folder}{folder to find news desks post-cleaning}
 }
 \value{
 \code{nyt_bind_api_files()} returns a tbl of raw API data
@@ -39,14 +39,14 @@ must be the same top level folder of the new project where
 \details{
 This function also provides a fairly accurate fix for a
 bug in the NYT API where the same article is returned 2x.
-The URL is different but the date, headline, author etc is the same.
-It's especially common in 2006. Luckily, the "extra"
-article has a shorter URL so the function keeps only the
-longest URL for every headline/pub_date pair.
+The URL is different but the date, headline, author etc
+is the same. It's especially common in 2006. Luckily,
+the "extra" article has a shorter URL so the function
+keeps only the longest URL for every headline/pub_date pair.
 }
 \examples{
 \dontrun{
 api_df <- bind_api_files()
-nyt_clean_api_tbl(api_df)
+combined_df <- nyt_clean_api_tbl(api_df)
 }
 }

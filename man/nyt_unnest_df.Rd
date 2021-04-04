@@ -7,8 +7,8 @@
 nyt_unnest_df(
   nested_df,
   max_keyword_length = 200,
-  values_input_path = "values_lookup_input",
-  values_output_path = "renamed_values"
+  values_input_folder = "values_lookup_input",
+  values_output_folder = "renamed_values"
 )
 }
 \arguments{
@@ -16,22 +16,25 @@ nyt_unnest_df(
 
 \item{max_keyword_length}{somewhat arbitrarily set to 200 for long strings that aren't really keywords}
 
-\item{values_input_path}{folder name to write keyword values pre-cleaning}
+\item{values_input_folder}{folder name to write keyword values pre-cleaning}
 
-\item{values_output_path}{folder to find keyword values post-cleaning}
+\item{values_output_folder}{folder to find keyword values post-cleaning}
 }
 \value{
 unnested data frame where each row is a keyword in an article instead of each row being an article
 }
 \description{
-Up until now, each row is an article with keywords stored as a nested dataframe.
-Unnesting keywords makes it easier to wrangle those values.
-This function also writes out a file of keyword values to be
-used as input to the lookup table shiny app and creates folder for
-replacements.
+Up until now, each row is an article with keywords stored
+as a nested dataframe. Unnesting keywords makes it easier
+to wrangle those values. This function also writes out
+a file of keyword values to be used as input to the
+lookup table shiny app and creates a folder for replacements.
+After running this function, run \code{nyt_run_example("lookup_table_app")}.
+Upload the file in the "values_input_folder". Place the
+output in the folder "values_output_folder".
 }
 \examples{
 \dontrun{
-nyt_unnest_df(nested_df)
+unnested_df <- nyt_unnest_df(nested_df)
 }
 }

@@ -6,7 +6,7 @@
 \usage{
 nyt_write_final_nested_df(
   full_nested_df,
-  shiny_app_path = "nyt_shiny_app",
+  shiny_app_folder = "nyt_shiny_app",
   sample = FALSE,
   sample_pct = 0.1
 )
@@ -14,7 +14,7 @@ nyt_write_final_nested_df(
 \arguments{
 \item{full_nested_df}{output of \code{nyt_re_nest_keywords()}}
 
-\item{shiny_app_path}{name of shiny app folder}
+\item{shiny_app_folder}{name of shiny app folder}
 
 \item{sample}{whether to write a smaller sample file from full_nested_df}
 

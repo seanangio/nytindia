@@ -10,12 +10,12 @@
 #'
 #' This function also provides a fairly accurate fix for a
 #' bug in the NYT API where the same article is returned 2x.
-#' The URL is different but the date, headline, author etc is the same.
-#' It's especially common in 2006. Luckily, the "extra"
-#' article has a shorter URL so the function keeps only the
-#' longest URL for every headline/pub_date pair.
+#' The URL is different but the date, headline, author etc
+#' is the same. It's especially common in 2006. Luckily,
+#' the "extra" article has a shorter URL so the function
+#' keeps only the longest URL for every headline/pub_date pair.
 #'
-#' @param api_data_path name of folder where to write api data
+#' @param api_data_folder name of folder where to write API data
 #' @return `nyt_bind_api_files()` returns a tbl of raw API data
 #' @export
 #' @importFrom magrittr %>%
@@ -23,9 +23,9 @@
 #' @examples
 #' \dontrun{
 #' api_df <- bind_api_files()
-#' nyt_clean_api_tbl(api_df)
+#' combined_df <- nyt_clean_api_tbl(api_df)
 #' }
-nyt_bind_api_files <- function(api_data_path = "api_data") {
+nyt_bind_api_files <- function(api_data_folder = "api_data") {
 
   files <- dir(path = "api_data", pattern = "*.rds", full.names = TRUE)
 
@@ -41,12 +41,12 @@ nyt_bind_api_files <- function(api_data_path = "api_data") {
 #' @rdname nyt_bind_api_files
 #' @export
 #' @param api_df tbl resulting from `nyt_bind_api_files()`
-#' @param news_desk_input_path folder name to write news desks pre-cleaning
-#' @param news_desk_output_path folder to find news desks post-cleaning
+#' @param news_desk_input_folder folder name to write news desks pre-cleaning
+#' @param news_desk_output_folder folder to find news desks post-cleaning
 #' @return `nyt_clean_api_tbl()` returns a cleaner tbl with nested keywords
 nyt_clean_api_tbl <- function(api_df,
-                              news_desk_input_path = "news_desk_lookup_input",
-                              news_desk_output_path = "renamed_news_desks") {
+                              news_desk_input_folder = "news_desk_lookup_input",
+                              news_desk_output_folder = "renamed_news_desks") {
 
   nested_df <- api_df %>%
     dplyr::rename_all(.funs = list(~sub("^response.docs.", "",.))) %>%
@@ -194,15 +194,15 @@ nyt_clean_api_tbl <- function(api_df,
   nested_news_desks <- nested_df %>%
     dplyr::select(news_desk)
 
-  if (!dir.exists(news_desk_input_path)) {
-    dir.create(news_desk_input_path)
+  if (!dir.exists(news_desk_input_folder)) {
+    dir.create(news_desk_input_folder)
   }
 
-  fn <- here::here(news_desk_input_path, "nested_news_desks.rds")
+  fn <- here::here(news_desk_input_folder, "nested_news_desks.rds")
   readr::write_rds(nested_news_desks, fn)
 
-  if (!dir.exists(news_desk_output_path)) {
-    dir.create(news_desk_output_path)
+  if (!dir.exists(news_desk_output_folder)) {
+    dir.create(news_desk_output_folder)
     # place lookup table output here
   }
 

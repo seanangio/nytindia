@@ -24,8 +24,9 @@ nyt_re_nest_keywords(full_unnested_df, max_allowable_india_rank = 30)
 }
 \description{
 Now that you have a final unnested version of the data, you need
-to create a nested version. In the process you also ready to
-create new columns (india_rank, max_kword, and in_of_n_kword).
+to create a nested version. In the process you are also ready to
+create new columns (india_rank, max_kword, and in_of_n_kword),
+which detail the relevance of India to an article.
 }
 \details{
 \code{extract_rank()} and \code{find_max_kword()} are small helper functions
@@ -33,6 +34,6 @@ used when iterating over each article.
 }
 \examples{
 \dontrun{
-nyt_re_nest_keywords(full_unnested_df)
+full_nested_df <- nyt_re_nest_keywords(full_unnested_df)
 }
 }

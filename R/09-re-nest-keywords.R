@@ -1,8 +1,9 @@
 #' Re-nest keywords
 #'
 #' Now that you have a final unnested version of the data, you need
-#' to create a nested version. In the process you also ready to
-#' create new columns (india_rank, max_kword, and in_of_n_kword).
+#' to create a nested version. In the process you are also ready to
+#' create new columns (india_rank, max_kword, and in_of_n_kword),
+#' which detail the relevance of India to an article.
 #'
 #' `extract_rank()` and `find_max_kword()` are small helper functions
 #' used when iterating over each article.
@@ -15,7 +16,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' nyt_re_nest_keywords(full_unnested_df)
+#' full_nested_df <- nyt_re_nest_keywords(full_unnested_df)
 #' }
 #' @importFrom magrittr %>%
 extract_rank <- function(df) {
@@ -44,8 +45,6 @@ nyt_re_nest_keywords <- function(full_unnested_df,
     names()
 
   full_nested_df <- full_unnested_df %>%
-    #group_by_at(vars(one_of(non_keyword_columns))) %>% # seems unnecessary in new nest()
-    #nest(.key = "keywords") %>%  # now this works again...
     tidyr::nest(keywords = c(name, value, rank, lat, lon, country)) %>%
     # pull out india rank as a separate var so you can filter by india rank and other keywords at same time
     # couldn't do this earlier because need to remove duplicate india ranks

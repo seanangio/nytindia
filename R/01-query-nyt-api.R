@@ -74,15 +74,15 @@ nyt_set_query_params <- function(
 #' @export
 #' @rdname nyt_get_data
 #' @return `nyt_set_query_params()` returns a Date vector
-#' @param api_data_path name of folder where to write api data
+#' @param api_data_folder name of folder where to write api data
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 nyt_set_time_chunks <- function(begin_date = NULL,
                                 end_date = NULL,
-                                api_data_path = "api_data") {
+                                api_data_folder = "api_data") {
 
-  if (!dir.exists(api_data_path)) {
-    dir.create(api_data_path)
+  if (!dir.exists(api_data_folder)) {
+    dir.create(api_data_folder)
   }
   # earliest date API is available
   api_origin_date <- as.Date("1855-01-01")
@@ -93,13 +93,13 @@ nyt_set_time_chunks <- function(begin_date = NULL,
 
   } else {
 
-    if (rlang::is_empty(list.files(api_data_path))) {
+    if (rlang::is_empty(list.files(api_data_folder))) {
 
       api_origin_date
 
     } else {
 
-      begin_date_as_chr <- list.files(api_data_path) %>%
+      begin_date_as_chr <- list.files(api_data_folder) %>%
         stringr::str_extract("^\\d+") %>%
         as.integer() %>% max() %>% as.character()
 
@@ -128,15 +128,15 @@ nyt_set_time_chunks <- function(begin_date = NULL,
 #' @param time_chunks Date vector output from `nyt_set_time_chunks()`
 #' @param nyt_api_url NULL unless querying another api
 #' @param nyt_user_agent "NYT_USER_AGENT" environmental variable
-#' @param api_data_path name of folder where to write api data
+#' @param api_data_folder name of folder where to write api data
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
-#' @return `nyt_query_api()` writes monthly rds files to path
+#' @return `nyt_query_api()` writes monthly rds files to api_data_folder
 nyt_query_api <- function(query_params,
                           time_chunks,
                           nyt_api_url = NULL,
                           nyt_user_agent = NULL,
-                          api_data_path = "api_data") {
+                          api_data_folder = "api_data") {
 
   nyt_api_url <- if (is.null(nyt_api_url)) {
     "http://api.nytimes.com/svc/search/v2/articlesearch.json?"
@@ -222,7 +222,7 @@ nyt_query_api <- function(query_params,
       pages_df <- jsonlite::rbind_pages(pages)
       # the list-column makes it difficult to write as csv; but rds works fine
       file <- glue::glue("{query_params$begin_date}.rds")
-      fn <- here::here(api_data_path, file)
+      fn <- here::here(api_data_folder, file)
       readr::write_rds(pages_df, fn)
     }
   }

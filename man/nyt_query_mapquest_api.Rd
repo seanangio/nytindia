@@ -6,7 +6,7 @@
 \usage{
 nyt_query_mapquest_api(
   unnested_df_values_fixed,
-  mapquest_path = "mapquest",
+  mapquest_folder = "mapquest",
   api_key = Sys.getenv("MAPQUEST_KEY"),
   nyt_user_agent = Sys.getenv("NYT_USER_AGENT")
 )
@@ -14,7 +14,7 @@ nyt_query_mapquest_api(
 \arguments{
 \item{unnested_df_values_fixed}{unnested df containing all glocation keywords}
 
-\item{mapquest_path}{folder where to write mapquest output}
+\item{mapquest_folder}{folder where to write mapquest output}
 
 \item{api_key}{"MAPQUEST_KEY" environmental variable}
 

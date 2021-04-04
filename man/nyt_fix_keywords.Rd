@@ -6,24 +6,25 @@
 \usage{
 nyt_fix_keywords(
   consolidated_unnested_df,
-  multi_names_output_path = "single_named_values"
+  multi_names_output_folder = "single_named_values"
 )
 }
 \arguments{
 \item{consolidated_unnested_df}{output of \code{nyt_clean_keywords()}}
 
-\item{multi_names_output_path}{folder to find corrected keyword values csv}
+\item{multi_names_output_folder}{folder to find corrected keyword values csv}
 }
 \value{
 an unnested df with consolidated, non-duplicate keyword values and names
 }
 \description{
 After choosing a name for keywords that have more than one
-in a spreadsheet, join those results back in. You also need to
-fix cases where the same keyword is given more than one rank.
+in a spreadsheet, join those results back in. This step also
+fixes cases where the same keyword is given more than one rank
+(this is just an error in the data).
 }
 \examples{
 \dontrun{
-nyt_fix_keywords(consolidated_unnested_df)
+unnested_df_values_fixed <- nyt_fix_keywords(consolidated_unnested_df)
 }
 }

@@ -6,30 +6,41 @@
 #' are countries.
 #'
 #' @param unnested_df_values_fixed output of `nyt_fix_keywords()`
-#' @param mapquest_path where mapquest API output is found
+#' @param mapquest_folder where mapquest API output is found
 #'
 #' @return unnested df with lat-lon coords for every glocation keyword
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' nyt_join_coords_countries(unnested_df_values_fixed)
+#' full_unnested_df <- nyt_join_coords_countries(unnested_df_values_fixed)
 #' }
 #' @importFrom magrittr %>%
 nyt_join_coords_countries <- function(unnested_df_values_fixed,
-                                      mapquest_path = "mapquest") {
+                                      mapquest_folder = "mapquest") {
 
-  # prepare raw mapquest results
-  fn <- here::here(mapquest_path, "raw_mapquest.rds")
-  glocations_table <- readr::read_rds(fn) %>%
-    jsonlite::rbind_pages() %>%
-    dplyr::rename(
-      glocation = providedLocation.location,
-      lat = latLng.lat,
-      lon = latLng.lng
-    ) %>%
-    dplyr::select(glocation, lat, lon) %>%
-    tibble::as_tibble()
+  # check if geocoding is done
+  if (!rlang::is_empty(list.files(mapquest_folder))) {
+
+    # prepare raw mapquest results
+    fn <- here::here(mapquest_folder, "raw_mapquest.rds")
+    glocations_table <- readr::read_rds(fn) %>%
+      jsonlite::rbind_pages() %>%
+      dplyr::rename(
+        glocation = providedLocation.location,
+        lat = latLng.lat,
+        lon = latLng.lng
+      ) %>%
+      dplyr::select(glocation, lat, lon) %>%
+      tibble::as_tibble()
+
+  } else {
+
+    glocations_table <- tibble::tibble(glocation = NA_character_,
+                                       lat = NA_real_,
+                                       lon = NA_real_)
+  }
+
 
   unnested_df_coords <- unnested_df_values_fixed %>%
     dplyr::left_join(glocations_table,

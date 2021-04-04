@@ -5,12 +5,15 @@
 \alias{nyt_clean_news_desks}
 \title{Clean 'news_desk' values}
 \usage{
-nyt_bind_news_desk_lookups(news_desk_output_path = "renamed_news_desks")
+nyt_bind_news_desk_lookups(news_desk_output_folder = "renamed_news_desks")
 
-nyt_clean_news_desks(combined_df, news_desk_output_path = "renamed_news_desks")
+nyt_clean_news_desks(
+  combined_df,
+  news_desk_output_folder = "renamed_news_desks"
+)
 }
 \arguments{
-\item{news_desk_output_path}{folder to find news desks post-cleaning}
+\item{news_desk_output_folder}{folder to find news desks post-cleaning}
 
 \item{combined_df}{output of \code{nyt_clean_api_tbl()}}
 }
@@ -20,9 +23,11 @@ nyt_clean_news_desks(combined_df, news_desk_output_path = "renamed_news_desks")
 \description{
 Values for 'news_desk' are often slightly different spellings of the same item.
 There are too many instances to fix with a \code{case_when()} statement
-so use the shiny app to create a lookup table.
-Then join in the replacement values. If you don't have a file of
-replacements in the "renamed_news_desks" folder, it will skip that step.
+so use the shiny app to create a lookup table
+(\code{nyt_run_example("lookup_table_app")}). Place the output
+of the app into the folder "renamed_news_desks". If you
+don't have a file of replacements in the
+"renamed_news_desks" folder, it will skip that step.
 }
 \details{
 You may not be able to write out the entire lookup table in one file
@@ -30,6 +35,6 @@ so you first need to bind together multiple files, if they exist.
 }
 \examples{
 \dontrun{
-nyt_clean_news_desks(combined_df)
+nested_df <- nyt_clean_news_desks(combined_df)
 }
 }

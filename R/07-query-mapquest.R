@@ -4,7 +4,7 @@
 #' of lat-lon coordinates for every unique glocation keyword.
 #'
 #' @param unnested_df_values_fixed unnested df containing all glocation keywords
-#' @param mapquest_path folder where to write mapquest output
+#' @param mapquest_folder folder where to write mapquest output
 #' @param api_key "MAPQUEST_KEY" environmental variable
 #' @param nyt_user_agent "NYT_USER_AGENT" environmental variable
 #'
@@ -16,7 +16,7 @@
 #' nyt_query_mapquest_api(unnested_df_values_fixed)
 #' }
 nyt_query_mapquest_api <- function(unnested_df_values_fixed,
-                                   mapquest_path = "mapquest",
+                                   mapquest_folder = "mapquest",
                                    api_key = Sys.getenv("MAPQUEST_KEY"),
                                    nyt_user_agent = Sys.getenv("NYT_USER_AGENT")) {
 
@@ -67,12 +67,11 @@ nyt_query_mapquest_api <- function(unnested_df_values_fixed,
     }
   }
 
-  if (!dir.exists(mapquest_path)) {
-    dir.create(mapquest_path)
+  if (!dir.exists(mapquest_folder)) {
+    dir.create(mapquest_folder)
   }
 
-  fn <- here::here(mapquest_path, "raw_mapquest.rds")
-  #fn <- glue::glue("{path_to_glocations}/raw_mapquest.rds")
+  fn <- here::here(mapquest_folder, "raw_mapquest.rds")
   readr::write_rds(pages, fn)
 
 }

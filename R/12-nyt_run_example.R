@@ -1,8 +1,8 @@
 #' Run NYT India app with sample data or lookup table app
 #'
-#' Launch a Shiny app that shows a demo of what can be done
-#' after querying and preparing data. You can also launch the
-#' lookup table app for renaming news desks and keyword values.
+#' Launch a Shiny app that visualizes data from 1855-2020.
+#' You can also launch the lookup table app for renaming news
+#' desks and keyword values.
 #'
 #' All credit to this \href{https://github.com/daattali/shinyjs/blob/master/R/runExample.R}{shinyjs example}.
 #'

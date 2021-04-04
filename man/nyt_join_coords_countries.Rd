@@ -4,12 +4,15 @@
 \alias{nyt_join_coords_countries}
 \title{Join in coordinates and country status for location keywords}
 \usage{
-nyt_join_coords_countries(unnested_df_values_fixed, mapquest_path = "mapquest")
+nyt_join_coords_countries(
+  unnested_df_values_fixed,
+  mapquest_folder = "mapquest"
+)
 }
 \arguments{
 \item{unnested_df_values_fixed}{output of \code{nyt_fix_keywords()}}
 
-\item{mapquest_path}{where mapquest API output is found}
+\item{mapquest_folder}{where mapquest API output is found}
 }
 \value{
 unnested df with lat-lon coords for every glocation keyword
@@ -22,6 +25,6 @@ are countries.
 }
 \examples{
 \dontrun{
-nyt_join_coords_countries(unnested_df_values_fixed)
+full_unnested_df <- nyt_join_coords_countries(unnested_df_values_fixed)
 }
 }

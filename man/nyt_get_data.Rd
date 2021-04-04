@@ -19,7 +19,7 @@ nyt_set_query_params(
 nyt_set_time_chunks(
   begin_date = NULL,
   end_date = NULL,
-  api_data_path = "api_data"
+  api_data_folder = "api_data"
 )
 
 nyt_query_api(
@@ -27,7 +27,7 @@ nyt_query_api(
   time_chunks,
   nyt_api_url = NULL,
   nyt_user_agent = NULL,
-  api_data_path = "api_data"
+  api_data_folder = "api_data"
 )
 }
 \arguments{
@@ -45,7 +45,7 @@ nyt_query_api(
 
 \item{api_key}{"NYTIMES_KEY" environmental variable for API key}
 
-\item{api_data_path}{name of folder where to write api data}
+\item{api_data_folder}{name of folder where to write api data}
 
 \item{query_params}{list output from \code{nyt_set_query_params()}}
 
@@ -60,7 +60,7 @@ nyt_query_api(
 
 \code{nyt_set_query_params()} returns a Date vector
 
-\code{nyt_query_api()} writes monthly rds files to path
+\code{nyt_query_api()} writes monthly rds files to api_data_folder
 }
 \description{
 To query data, call \code{nyt_get_data()} in the top level folder

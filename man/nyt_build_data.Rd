@@ -32,11 +32,11 @@ function will send the folder of files retrieved from the
 API through a pipeline of functions to produce the output
 dataset to the shiny app. You can use this if several
 manual data cleaning steps (renaming desks or keyword values),
-as well as having already geo-coded locations, are already
-complete.
+as well as having already geocoded locations, are already
+complete or are being skipped.
 }
 \examples{
 \dontrun{
-nyt_write_final_dataset(full_nested_df)
+nyt_build_data()
 }
 }

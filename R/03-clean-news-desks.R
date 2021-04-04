@@ -2,25 +2,27 @@
 #'
 #' Values for 'news_desk' are often slightly different spellings of the same item.
 #' There are too many instances to fix with a `case_when()` statement
-#' so use the shiny app to create a lookup table.
-#' Then join in the replacement values. If you don't have a file of
-#' replacements in the "renamed_news_desks" folder, it will skip that step.
+#' so use the shiny app to create a lookup table
+#' (`nyt_run_example("lookup_table_app")`). Place the output
+#' of the app into the folder "renamed_news_desks". If you
+#' don't have a file of replacements in the
+#' "renamed_news_desks" folder, it will skip that step.
 #'
 #' You may not be able to write out the entire lookup table in one file
 #' so you first need to bind together multiple files, if they exist.
 #'
-#' @param news_desk_output_path folder to find news desks post-cleaning
+#' @param news_desk_output_folder folder to find news desks post-cleaning
 #' @return `nyt_clean_news_desks()` returns a nested df where news desk values have been consolidated based on the lookup table created from the shiny app
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' nyt_clean_news_desks(combined_df)
+#' nested_df <- nyt_clean_news_desks(combined_df)
 #' }
 #' @importFrom magrittr %>%
-nyt_bind_news_desk_lookups <- function(news_desk_output_path = "renamed_news_desks") {
+nyt_bind_news_desk_lookups <- function(news_desk_output_folder = "renamed_news_desks") {
 
-  files <- dir(path = news_desk_output_path,
+  files <- dir(path = news_desk_output_folder,
                pattern = "*.rds", full.names = TRUE)
 
   files %>%
@@ -33,11 +35,11 @@ nyt_bind_news_desk_lookups <- function(news_desk_output_path = "renamed_news_des
 #' @export
 #' @rdname nyt_bind_news_desk_lookups
 #' @param combined_df output of `nyt_clean_api_tbl()`
-#' @param news_desk_output_path folder to find news desks post-cleaning
+#' @param news_desk_output_folder folder to find news desks post-cleaning
 nyt_clean_news_desks <- function(combined_df,
-                                 news_desk_output_path = "renamed_news_desks") {
+                                 news_desk_output_folder = "renamed_news_desks") {
 
-  if (!rlang::is_empty(list.files(news_desk_output_path))) {
+  if (!rlang::is_empty(list.files(news_desk_output_folder))) {
 
     news_desk_table <- nyt_bind_news_desk_lookups()
 

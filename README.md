@@ -60,7 +60,9 @@ data, there are a few steps that require a pause in the pipeline:
 -   renaming categories of keywords
 -   geocoding locations
 
-The first three are optional, but the geocoding must be done.
+These are optional, but your map will be empty and the keywords and news
+desk categories may be overlapping depending on the expanse of time you
+are querying.
 
 Once you have these steps complete and just want to update the dataset
 with more recent data, you can just run:

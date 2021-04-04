@@ -1,24 +1,25 @@
 #' Fix keywords
 #'
 #' After choosing a name for keywords that have more than one
-#' in a spreadsheet, join those results back in. You also need to
-#' fix cases where the same keyword is given more than one rank.
+#' in a spreadsheet, join those results back in. This step also
+#' fixes cases where the same keyword is given more than one rank
+#' (this is just an error in the data).
 #'
 #' @param consolidated_unnested_df output of `nyt_clean_keywords()`
-#' @param multi_names_output_path folder to find corrected keyword values csv
+#' @param multi_names_output_folder folder to find corrected keyword values csv
 #' @return an unnested df with consolidated, non-duplicate keyword values and names
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' nyt_fix_keywords(consolidated_unnested_df)
+#' unnested_df_values_fixed <- nyt_fix_keywords(consolidated_unnested_df)
 #' }
 nyt_fix_keywords <- function(consolidated_unnested_df,
-                             multi_names_output_path = "single_named_values") {
+                             multi_names_output_folder = "single_named_values") {
 
-  if (!rlang::is_empty(list.files(multi_names_output_path))) {
+  if (!rlang::is_empty(list.files(multi_names_output_folder))) {
 
-    fn <- here::here(multi_names_output_path, "single_named_keywords.csv")
+    fn <- here::here(multi_names_output_folder, "single_named_keywords.csv")
     revised_keyword_names <- readr::read_csv(fn) %>%
       dplyr::distinct()
 
