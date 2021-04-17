@@ -36,7 +36,24 @@ Suggests:
     shiny,
     testthat (>= 2.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    markdown,
+    ggplot2,
+    forcats,
+    scales,
+    shinyWidgets,
+    bsplus,
+    shinycssloaders,
+    DT,
+    ggiraph,
+    tidytext,
+    tsbox,
+    dygraphs,
+    gt,
+    leaflet,
+    leaflet.extras,
+    shinydashboard,
+    waiter
 Config/testthat/edition: 2
 Depends: 
     R (>= 2.10)
