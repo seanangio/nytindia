@@ -85,7 +85,8 @@
     
 <p>For those more interested in the contents of the package rather than analysis of the actual data at hand, here I detail some of the key steps.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://seanangio.github.io/nytindia">nytindia</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://seanangio.github.io/nytindia">nytindia</a></span><span class="op">)</span></code></pre></div>
 <div id="preparing-the-data" class="section level1">
 <h1 class="hasAnchor">
 <a href="#preparing-the-data" class="anchor"></a>Preparing the Data</h1>
@@ -93,7 +94,7 @@
 <ul>
 <li>query article data from <a href="https://developer.nytimes.com/docs/articlesearch-product/1/overview">The New York Times Article Search API</a>;</li>
 <li>clean the data, especially consolidating categorical values representing the same entity into one value;</li>
-<li>unnest the nested data frame column of keywords;</li>
+<li>transform the original data frame, where each row is an article and keywords are a nested column, to an unnested data frame, where each row is a keyword in an article;</li>
 <li>geocode location keywords using the <a href="https://developer.mapquest.com/documentation/geocoding-api/">Mapquest Geocoding API</a>;</li>
 <li>prepare data on Indian government tenures from <a href="https://en.wikipedia.org/wiki/List_of_prime_ministers_of_India">Wikipedia</a>.</li>
 </ul>
@@ -102,13 +103,13 @@
 <h2 class="hasAnchor">
 <a href="#querying-the-nyt-article-search-api" class="anchor"></a>Querying the NYT Article Search API</h2>
 <p>This project started with querying <a href="https://developer.nytimes.com/docs/articlesearch-product/1/overview">The New York Times Article Search API</a>.</p>
-<p>My goal was to collect every article in The New York Times “about” India dating back as far as possible until the end of 2020. Accordingly, the query string required that all results include:</p>
+<p>My goal was to collect every article in The New York Times “about India” dating back as far as possible. Accordingly, the query string required that all results include:</p>
 <ul>
 <li>an “India” location keyword tag,</li>
 <li>the document type “article”,</li>
 <li>and the source be one of “The New York Times”, “International New York Times”, or “International Herald Tribune”.</li>
 </ul>
-<p>After a reading a few tutorials on querying The New York Times’ API, like <a href="http://www.storybench.org/working-with-the-new-york-times-api-in-r/">this one</a>, it was not too difficult to get the results I wanted.</p>
+<p>After reading a few tutorials on querying The New York Times’ API, like <a href="http://www.storybench.org/working-with-the-new-york-times-api-in-r/">this one</a>, it was not too difficult to get the results I wanted.</p>
 <p>My code in <code>R/01-query-nyt-api.R</code> is probably not the most robust script, but the main learning point was to iterate over small chunks of time.</p>
 <p>My query script essentially has two loops:</p>
 <ul>
@@ -125,21 +126,50 @@
 <p>Many of the columns in the dataset contained multiple values that represent the same or nearly the same entity.</p>
 <p>For example, the raw values for a column like <em>news_desk</em> included “Business/Finance”, “Money and Business/Financial”, “Financial”, “Business”, “Business/World Business”, and “Business / World Business”.</p>
 <p>The same problem presented itself with a column like keyword values. To give one example, there were nine different attributions all referring to the same person (“Gandhi, Mohandas Karamchand”).</p>
-<p>I needed to consolidate values referring to the same entity to one single value. I initially approached this problem with a very long <code>case_when()</code> statement. This quickly became untenable though as the severity of the problem became apparent.</p>
+<p>I needed to consolidate values referring to the same entity to one single value. I initially approached this problem with a very long <code><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when()</a></code> statement. This quickly became untenable though as the severity of the problem became apparent.</p>
 <p>A more automated solution like fuzzy matching, or approximate string matching, was also not viable as many of the correct matches are not actually that close in terms of string distance. On the other hand, values like “Gandhi, Rahul” and “Gandhi, Rajiv” are close in terms of string distance, but are two different people. Accordingly, all renaming required human review.</p>
-<p>My solution was to write a small Shiny app that would make it easy to create lookup tables. The code for this app is also in <a href="https://github.com/seanangio/nytindia/inst/examples/lookup-table-app">Github</a>.</p>
+<p>My solution was to write a small Shiny app that would make it easy to create lookup tables. The code for this app is included in the package <a href="https://github.com/seanangio/nytindia/inst/examples/lookup_table_app">here</a>.</p>
 <p>I would first create a file with counts of distinct names for a column like news desk or keyword values. I would choose the name I wanted to keep. The app would then sort all of the other values in the column by string distance. Between the similarity score and searching in the DataTable, I was able to find the most likely values to be consolidated under the chosen name.</p>
+<div class="figure">
+<img src="lookup-table-app.png" style="width:75.0%" alt=""><p class="caption">Screenshot of Lookup Table shiny app</p>
+</div>
 </div>
 <div id="nested-vs--unnested-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#nested-vs--unnested-data" class="anchor"></a>Nested vs. Unnested Data</h2>
-<p>Another challenge in preparing the data was handling nested keywords. After combining all of the raw files into one data frame, every record represents one article. (Think of the <strong>Table</strong> tab). The <em>keywords</em> for every article are structured as a nested data frame.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># source("global.R")</span>
-<span class="co"># glimpse(full_nested_df)</span></code></pre></div>
-<p>The nested <em>keywords</em> data frame from the Article Search API includes not only the keyword value, but also a category (“subject”, “person”, “glocation”, “organization”, or “creative_work”) and its rank of importance in the article. The <em>lat</em>, <em>lon</em>, and <em>country</em> columns are added in the step below.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#full_nested_df$keywords[[1]]</span></code></pre></div>
+<p>Another challenge in preparing the data was handling nested keywords. After combining all of the raw files into one data frame, every record represents one article. (Think of the <strong>Table</strong> tab of the <code>nyt_india_app</code>). The keywords for every article are structured as a nested data frame. You can see this in the final nested data frame below.</p>
+<pre><code>#&gt; Rows: 33,713
+#&gt; Columns: 15
+#&gt; $ url            &lt;chr&gt; "https://www.nytimes.com/2020/12/31/arts/design/louis-k…
+#&gt; $ pub_date       &lt;date&gt; 2020-12-31, 2020-12-24, 2020-12-24, 2020-12-24, 2020-1…
+#&gt; $ headline       &lt;chr&gt; "Louis Kahn-Designed Dorms in India May Be Razed", "How…
+#&gt; $ news_desk      &lt;chr&gt; "The Arts/Cultural", "OpEd", "Business/Financial", "Was…
+#&gt; $ section        &lt;chr&gt; "Arts", "Opinion", "Technology", "World", "Times Inside…
+#&gt; $ material       &lt;chr&gt; "News", "Op-Ed", "News", "News", "News", "News", "Op-Ed…
+#&gt; $ byline         &lt;chr&gt; "Matt Shaw", "Nikhil Kumar", "Priya Arora and Karan Dee…
+#&gt; $ abstract       &lt;chr&gt; "Plans to demolish part of a Kahn project at the Indian…
+#&gt; $ lead_paragraph &lt;chr&gt; "A world-class architectural-preservation controversy i…
+#&gt; $ front_page     &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, FALSE, NA, FALSE, FALSE, FAL…
+#&gt; $ printed        &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, …
+#&gt; $ keywords       &lt;list&gt; [&lt;tbl_df[11 x 6]&gt;], [&lt;tbl_df[8 x 6]&gt;], [&lt;tbl_df[11 x 6…
+#&gt; $ india_rank     &lt;dbl&gt; 2, 1, 1, 1, 3, 12, 10, 10, 3, 1, 1, 10, 5, 1, 15, 7, 11…
+#&gt; $ max_kword      &lt;dbl&gt; 11, 8, 11, 15, 4, 26, 11, 11, 6, 3, 11, 12, 6, 6, 17, 9…
+#&gt; $ in_of_n_kword  &lt;glue&gt; "2 of 11", "1 of 8", "1 of 11", "1 of 15", "3 of 4", "…</code></pre>
+<p>The nested <em>keywords</em> data frame from the Article Search API includes not only the keyword value, but also a category (“subject”, “person”, “glocation”, “organization”, or “creative_work”) and its rank of importance in the article. The <em>lat</em>, <em>lon</em>, and <em>country</em> columns are added in the step below. Here’s one example:</p>
+<pre><code>#&gt; # A tibble: 11 x 6
+#&gt;    name          value                                  rank   lat   lon country
+#&gt;    &lt;chr&gt;         &lt;chr&gt;                                 &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;  
+#&gt;  1 subject       architecture                              1  NA    NA   FALSE  
+#&gt;  2 glocations    india                                     2  27.1  80.3 TRUE   
+#&gt;  3 persons       kahn, louis i                             3  NA    NA   FALSE  
+#&gt;  4 subject       dormitories                               4  NA    NA   FALSE  
+#&gt;  5 organizations world monuments fund                      5  NA    NA   FALSE  
+#&gt;  6 persons       doshi, balkrishna                         6  NA    NA   FALSE  
+#&gt;  7 glocations    ahmedabad (india)                         7  23.0  72.6 FALSE  
+#&gt;  8 organizations indian institute of management ahmed…     8  NA    NA   FALSE  
+#&gt;  9 subject       historic buildings and sites              9  NA    NA   FALSE  
+#&gt; 10 subject       demolition                               10  NA    NA   FALSE  
+#&gt; 11 subject       colleges and universities                11  NA    NA   FALSE</code></pre>
 <p>In preparing the data, {tidyr}’s <code>nest()</code> and <code>unnest()</code> functions are used for this task. However, in the Shiny app itself, to go from unnested to nested versions, it’s faster to just acquire the distinct URLs from the unnested data frame and use that to filter the nested data frame.</p>
 </div>
 <div id="querying-location-data" class="section level2">
@@ -147,7 +177,7 @@
 <a href="#querying-location-data" class="anchor"></a>Querying Location Data</h2>
 <p>Once keyword values were unnested and cleaned, I wanted to join in geographic coordinates in order to visualize the location keywords on a map.</p>
 <p>There are a number of free geocoding APIs available, many with R wrappers. I chose to query the <a href="https://developer.mapquest.com/documentation/geocoding-api/">Mapquest Geocoding API</a> to return a longitude and latitude coordinate for every unique location keyword. I expect there are a few errors, but overall it did a good job.</p>
-<p>Again, my script (<code>R/07-query-mapquest.R</code>) is likely not the most robust, but, as there were a fairly small number of locations, it wasn’t a difficult task.</p>
+<p>Again, my script (<code>R/07-query-mapquest.R</code>) is likely not the most robust, but, as there were a relatively small number of locations, it wasn’t a difficult task.</p>
 <p>Location keywords include both cities and countries. They should really be distinguished in some way before plotting as bubbles on the same map. To achieve this, I joined in a list of country name data in order to identify which keywords are countries. Once again, likely not a perfect list, but it did the job. See <code>R/08-add-coords-countries.R</code> for details.</p>
 </div>
 <div id="preparing-government-data" class="section level2">
