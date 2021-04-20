@@ -17,7 +17,8 @@ knitr::opts_chunk$set(
 
 For those more interested in the contents of the package rather than analysis of the actual data at hand, here I detail some of the key steps.
 
-```{r setup}
+```{r setup, message=FALSE}
+library(dplyr)
 library(nytindia)
 ```
 
@@ -27,7 +28,7 @@ The main steps for preparing the data found in the Shiny app were to:
 
 - query article data from [The New York Times Article Search API](https://developer.nytimes.com/docs/articlesearch-product/1/overview);
 - clean the data, especially consolidating categorical values representing the same entity into one value;
-- unnest the nested data frame column of keywords; 
+- transform the original data frame, where each row is an article and keywords are a nested column, to an unnested data frame, where each row is a keyword in an article; 
 - geocode location keywords using the [Mapquest Geocoding API](https://developer.mapquest.com/documentation/geocoding-api/);
 - prepare data on Indian government tenures from [Wikipedia](https://en.wikipedia.org/wiki/List_of_prime_ministers_of_India).
 
@@ -37,13 +38,13 @@ I provide more detail on each of these steps in the sections below.
 
 This project started with querying [The New York Times Article Search API](https://developer.nytimes.com/docs/articlesearch-product/1/overview).
 
-My goal was to collect every article in The New York Times "about" India dating back as far as possible until the end of 2020. Accordingly, the query string required that all results include:
+My goal was to collect every article in The New York Times "about India" dating back as far as possible. Accordingly, the query string required that all results include:
 
 - an "India" location keyword tag,
 - the document type "article",
 - and the source be one of "The New York Times", "International New York Times", or "International Herald Tribune".
 
-After a reading a few tutorials on querying The New York Times' API, like [this one](http://www.storybench.org/working-with-the-new-york-times-api-in-r/), it was not too difficult to get the results I wanted. 
+After reading a few tutorials on querying The New York Times' API, like [this one](http://www.storybench.org/working-with-the-new-york-times-api-in-r/), it was not too difficult to get the results I wanted. 
 
 My code in ``R/01-query-nyt-api.R`` is probably not the most robust script, but the main learning point was to iterate over small chunks of time. 
 
@@ -70,23 +71,25 @@ I needed to consolidate values referring to the same entity to one single value.
 
 A more automated solution like fuzzy matching, or approximate string matching, was also not viable as many of the correct matches are not actually that close in terms of string distance. On the other hand, values like "Gandhi, Rahul" and "Gandhi, Rajiv" are close in terms of string distance, but are two different people. Accordingly, all renaming required human review.
 
-My solution was to write a small Shiny app that would make it easy to create lookup tables. The code for this app is also in [Github](https://github.com/seanangio/nytindia/inst/examples/lookup-table-app). 
+My solution was to write a small Shiny app that would make it easy to create lookup tables. The code for this app is included in the package [here](https://github.com/seanangio/nytindia/inst/examples/lookup_table_app). 
 
 I would first create a file with counts of distinct names for a column like news desk or keyword values. I would choose the name I wanted to keep. The app would then sort all of the other values in the column by string distance. Between the similarity score and searching in the DataTable, I was able to find the most likely values to be consolidated under the chosen name. 
 
+![Screenshot of Lookup Table shiny app](lookup-table-app.png){width=75%}
+
 ## Nested vs. Unnested Data
 
-Another challenge in preparing the data was handling nested keywords. After combining all of the raw files into one data frame, every record represents one article. (Think of the **Table** tab). The *keywords* for every article are structured as a nested data frame. 
+Another challenge in preparing the data was handling nested keywords. After combining all of the raw files into one data frame, every record represents one article. (Think of the **Table** tab of the `nyt_india_app`). The keywords for every article are structured as a nested data frame. You can see this in the final nested data frame below.
 
-```{r message=FALSE}
-# source("global.R")
-# glimpse(full_nested_df)
+```{r message=FALSE, echo=FALSE}
+full_nested_df <- readRDS("../inst/examples/nyt_india_app/full_nested_df.rds")
+glimpse(full_nested_df)
 ```
 
-The nested *keywords* data frame from the Article Search API includes not only the keyword value, but also a category ("subject", "person", "glocation", "organization", or "creative_work") and its rank of importance in the article. The *lat*, *lon*, and *country* columns are added in the step below.
+The nested *keywords* data frame from the Article Search API includes not only the keyword value, but also a category ("subject", "person", "glocation", "organization", or "creative_work") and its rank of importance in the article. The *lat*, *lon*, and *country* columns are added in the step below. Here's one example:
 
-```{r}
-#full_nested_df$keywords[[1]]
+```{r echo=FALSE}
+full_nested_df$keywords[[1]]
 ```
 
 In preparing the data, {tidyr}'s `nest()` and `unnest()` functions are used for this task. However, in the Shiny app itself, to go from unnested to nested versions, it's faster to just acquire the distinct URLs from the unnested data frame and use that to filter the nested data frame.
@@ -97,7 +100,7 @@ Once keyword values were unnested and cleaned, I wanted to join in geographic co
 
 There are a number of free geocoding APIs available, many with R wrappers. I chose to query the [Mapquest Geocoding API](https://developer.mapquest.com/documentation/geocoding-api/) to return a longitude and latitude coordinate for every unique location keyword. I expect there are a few errors, but overall it did a good job.
 
-Again, my script (``R/07-query-mapquest.R``) is likely not the most robust, but, as there were a fairly small number of locations, it wasn't a difficult task. 
+Again, my script (``R/07-query-mapquest.R``) is likely not the most robust, but, as there were a relatively small number of locations, it wasn't a difficult task. 
 
 Location keywords include both cities and countries. They should really be distinguished in some way before plotting as bubbles on the same map. To achieve this, I joined in a list of country name data in order to identify which keywords are countries. Once again, likely not a perfect list, but it did the job. See ``R/08-add-coords-countries.R`` for details.
 
@@ -108,7 +111,7 @@ One last piece of data needed was a history of Indian governments. This enabled 
 This data came from [Wikipedia](https://en.wikipedia.org/wiki/List_of_prime_ministers_of_India). Instead of scraping it directly, copy-pasting into a Google sheet and then using the {datapasta} package was the easiest way to get the data into R. See ``data-raw/govt.R`` for more details.
 
 ```{r echo=FALSE}
-dplyr::glimpse(govt)
+glimpse(govt)
 ```
 
 # Building the Shiny App
