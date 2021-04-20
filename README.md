@@ -37,8 +37,8 @@ folder of a new RStudio project.
 
 ``` r
 library(nytindia)
-nyt_get_data(begin_date = "YYY-MM-DD", 
-             end_date = "YYY-MM-DD")
+nyt_get_data(begin_date = "YYYY-MM-DD", 
+             end_date = "YYYY-MM-DD")
 ```
 
 You’ll need environmental variables called “NYTIMES\_KEY” and
