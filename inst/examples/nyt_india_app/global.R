@@ -1085,8 +1085,14 @@ draw_keyword_heatmap <- function(keyword_pairs) {
 }
 
 format_heatmap_selection <- function(keyword_pairs, heatmap_cell) {
-  heatmap_row <- keyword_pairs %>%
-    filter(rowid == heatmap_cell)
+  if (is.null(heatmap_cell)) {
+    return(c(""))
+  } else {
+    heatmap_row <- keyword_pairs %>%
+      filter(rowid == heatmap_cell)
 
-  str_glue("Of {heatmap_row$Var2_n} articles with the keyword '{heatmap_row$Var2}', {heatmap_row$weight} also have the keyword '{heatmap_row$Var1}'.")
+    str_glue("Of {heatmap_row$Var2_n} articles with the keyword
+             '{heatmap_row$Var2}', {heatmap_row$weight} also have
+             the keyword '{heatmap_row$Var1}'.")
+  }
 }
