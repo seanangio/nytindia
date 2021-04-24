@@ -32,7 +32,7 @@ library(leaflet.extras)
 
 # read data sources -------------------------------------------------------
 
-full_nested_df <- read_rds("full_nested_df.rds") # nested_sample.rds
+full_nested_df <- read_rds("nested_sample.rds") # nested_sample.rds
 full_unnested_df <- full_nested_df %>% unnest(keywords)
 govt <- read_csv("govt.csv")
 
@@ -97,10 +97,10 @@ input_table <- tribble(
 mySwitchInput <- function(id, label, ...) {
   if (id == "keyword_condition_and") {
     switchInput(id, label,
-      value = FALSE, # FALSE is OR (default)
-      labelWidth = "200px",
-      onLabel = "AND", offLabel = "OR",
-      onStatus = "warning", offStatus = "warning"
+                value = FALSE, # FALSE is OR (default)
+                labelWidth = "200px",
+                onLabel = "AND", offLabel = "OR",
+                onStatus = "warning", offStatus = "warning"
     )
   } else {
     switchInput(id, label, ..., labelWidth = "300px")
@@ -114,16 +114,16 @@ myPickerInput <- function(id, label, ...) {
   broken_values <- input_table$broken_values[input_table$id == id][[1]]
 
   pickerInput(id, label,
-    choices = choices,
-    selected = choices,
-    multiple = TRUE,
-    options = list(
-      `actions-box` = TRUE,
-      `live-search` = TRUE,
-      `liveSearchNormalize` = TRUE,
-      `selected-text-format` = "count > 3"
-    ),
-    choicesOpt = list(content = broken_values)
+              choices = choices,
+              selected = choices,
+              multiple = TRUE,
+              options = list(
+                `actions-box` = TRUE,
+                `live-search` = TRUE,
+                `liveSearchNormalize` = TRUE,
+                `selected-text-format` = "count > 3"
+              ),
+              choicesOpt = list(content = broken_values)
   )
 }
 
@@ -138,17 +138,17 @@ myInput <- function(id, ...) {
     the_input <- myPickerInput(id, label, ...)
   } else if (widget == "dateRange") {
     the_input <- dateRangeInput(id, label,
-      start = min(full_nested_df$pub_date),
-      end = max(full_nested_df$pub_date),
-      min = min(full_nested_df$pub_date),
-      max = max(full_nested_df$pub_date),
-      startview = "decade"
+                                start = min(full_nested_df$pub_date),
+                                end = max(full_nested_df$pub_date),
+                                min = min(full_nested_df$pub_date),
+                                max = max(full_nested_df$pub_date),
+                                startview = "decade"
     )
   } else if (widget == "slider") {
     the_input <- sliderInput(id, label,
-      min = 1, max = max(full_nested_df$india_rank),
-      value = c(1, max(full_nested_df$india_rank)),
-      step = 1
+                             min = 1, max = max(full_nested_df$india_rank),
+                             value = c(1, max(full_nested_df$india_rank)),
+                             step = 1
     )
   } else if (widget == "text") {
     the_input <- textInput(id, label)
@@ -209,8 +209,8 @@ filter_unnested <- function(single_date_range, dates, government,
     } else {
       for (i in seq_along(government)) {
         temp_tbl <- rbind(temp_tbl, full_unnested_df %>%
-          filter(pub_date >= from[i] &
-            pub_date <= to[i]))
+                            filter(pub_date >= from[i] &
+                                     pub_date <= to[i]))
       }
     }
   } else {
@@ -244,11 +244,11 @@ filter_unnested <- function(single_date_range, dates, government,
     {
       if (filter_text == TRUE) {
         mutate(.,
-          text_cols = str_c(headline, " ", abstract, " ", lead_paragraph),
-          text_cols = str_replace_all(
-            str_to_lower(text_cols),
-            "[^[:alnum:] ]", ""
-          )
+               text_cols = str_c(headline, " ", abstract, " ", lead_paragraph),
+               text_cols = str_replace_all(
+                 str_to_lower(text_cols),
+                 "[^[:alnum:] ]", ""
+               )
         ) %>%
           filter(
             .,
@@ -283,7 +283,7 @@ count_filters_on <- function(dates, government, desk,
   n_filters <- 0
 
   if (dates[1] != min(full_nested_df$pub_date) ||
-    dates[2] != max(full_nested_df$pub_date)) {
+      dates[2] != max(full_nested_df$pub_date)) {
     n_filters <- n_filters + 1
   } else if (length(government) != length(governments)) {
     n_filters <- n_filters + 1
@@ -352,36 +352,36 @@ prep_dt <- function(df) {
 draw_dt <- function(df) {
   # once df is correct format, use DT package to format it
   datatable(df,
-    caption = tags$caption(
-      em(h5('Click on a cell in the News Desk, Section, Material, or Byline columns to filter for that value; click the "India Keyword" cell for keyword table.'))
-    ),
-    class = "cell-border stripe order-column compact",
-    selection = list(mode = "single", target = "cell"),
-    extensions = "Responsive",
-    options = list(
-      # Cursor icon changes to hand (pointer) on Hover for keyword col
-      rowCallback = JS(
-        "function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {",
-        "$('td:eq(6)', nRow).css('cursor', 'pointer');",
-        "}"
-      ),
-      columnDefs = list(
-        list(className = "dt-center", targets = 6), # center kw col
-        list(
-          # ellipsis for long text cols
-          targets = c(5, 7, 8),
-          render = JS(
-            "function(data, type, row, meta) {",
-            "return type === 'display' && data.length > 20 ?",
-            "'<span title=\"' + data + '\">' + data.substr(0, 20) + '...</span>' : data;",
-            "}"
-          )
-        )
-      )
-    ),
-    rownames = FALSE,
-    filter = "top",
-    escape = FALSE
+            caption = tags$caption(
+              em(h5('Click on a cell in the News Desk, Section, Material, or Byline columns to filter for that value; click the "India Keyword" cell for keyword table.'))
+            ),
+            class = "cell-border stripe order-column compact",
+            selection = list(mode = "single", target = "cell"),
+            extensions = "Responsive",
+            options = list(
+              # Cursor icon changes to hand (pointer) on Hover for keyword col
+              rowCallback = JS(
+                "function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {",
+                "$('td:eq(6)', nRow).css('cursor', 'pointer');",
+                "}"
+              ),
+              columnDefs = list(
+                list(className = "dt-center", targets = 6), # center kw col
+                list(
+                  # ellipsis for long text cols
+                  targets = c(5, 7, 8),
+                  render = JS(
+                    "function(data, type, row, meta) {",
+                    "return type === 'display' && data.length > 20 ?",
+                    "'<span title=\"' + data + '\">' + data.substr(0, 20) + '...</span>' : data;",
+                    "}"
+                  )
+                )
+              )
+            ),
+            rownames = FALSE,
+            filter = "top",
+            escape = FALSE
   )
 }
 
@@ -468,8 +468,8 @@ count_choices <- list(
 
 count_choices_df <- tibble(count_choices) %>%
   unnest_longer(count_choices,
-    values_to = "var_name",
-    indices_to = "plot_name"
+                values_to = "var_name",
+                indices_to = "plot_name"
   )
 
 # words like india should be considered stop words
@@ -540,7 +540,7 @@ trim_count_df <- function(count_df, n_obs) {
     top_cats <- count_df %>% pull(!!rlang::sym(var))
     df <- count_df %>%
       mutate(!!var := ifelse(!!rlang::sym(var) %in% top_cats[1:n_obs - 1],
-        !!rlang::sym(var), "Other"
+                             !!rlang::sym(var), "Other"
       )) %>%
       count(!!rlang::sym(var), wt = n)
   } else {
@@ -552,8 +552,8 @@ trim_count_df <- function(count_df, n_obs) {
   df %>%
     mutate(tip = str_c(.[[1]], ": ",
                        number(n,
-                          accuracy = 1,
-                          big.mark = ",")))
+                              accuracy = 1,
+                              big.mark = ",")))
 }
 
 get_subtitle_str <- function(count_df, n_obs) {
@@ -661,11 +661,11 @@ build_gg <- function(trimmed_count_df, sub_title) {
     {
       if (var != "word") {
         scale_y_continuous("Number of Articles",
-          labels = scales::comma
+                           labels = scales::comma
         )
       } else {
         scale_y_continuous("Number of Appearances",
-          labels = scales::comma
+                           labels = scales::comma
         )
       }
     } +
@@ -694,7 +694,7 @@ build_gg <- function(trimmed_count_df, sub_title) {
         xlab("Total number of keywords for an article")
       }
     } +
-    theme_classic(base_size = 16)
+    theme_classic(base_size = 24) #16
 }
 
 draw_girafe <- function(gg, var) {
@@ -704,8 +704,8 @@ draw_girafe <- function(gg, var) {
 
   girafe(
     ggobj = gg,
-    width_svg = 11,
-    height_svg = 9,
+    width_svg = 15, #11
+    height_svg = 10, #9
     options = list(
       opts_hover(
         css = str_glue("fill:{hover_fill};stroke:gray;stroke-width:2;")
@@ -721,11 +721,11 @@ draw_girafe <- function(gg, var) {
 
 get_current_n <- function(nested_df) {
   total_n <- format(nrow(full_nested_df),
-    big.mark = ","
+                    big.mark = ","
   )
 
   n <- format(nrow(nested_df),
-    big.mark = ","
+              big.mark = ","
   )
 
   percentage_included <- sprintf(
@@ -843,9 +843,9 @@ add_shades <- function(x, periods, ...) {
   # https://stackoverflow.com/questions/30805017/dyshading-r-dygraph
   for (period in periods) {
     x <- dyShading(x,
-      from = period$from,
-      to = period$to,
-      color = period$color, ...
+                   from = period$from,
+                   to = period$to,
+                   color = period$color, ...
     )
   }
   x
@@ -965,9 +965,9 @@ update_map <- function(m, df, base_radius) {
     {
       if (nrow(df) != 0) {
         addCircles(.,
-          lng = ~lon, lat = ~lat,
-          radius = ~ sqrt(n) * base_radius * 1000,#5000,
-          label = ~label, color = ~ lpal(country)
+                   lng = ~lon, lat = ~lat,
+                   radius = ~ sqrt(n) * base_radius * 1000,#5000,
+                   label = ~label, color = ~ lpal(country)
         )
       } else {
         .
@@ -1029,16 +1029,16 @@ get_keyword_pairs <- function(unnested_df, top_kword_counts) {
     mutate(
       weight_over_var2n = weight / Var2_n,
       weight_over_var2n = if_else(weight_over_var2n == 1.0,
-        NA_real_,
-        weight_over_var2n
+                                  NA_real_,
+                                  weight_over_var2n
       ),
       pct = if_else(is.na(weight_over_var2n),
-        NA_character_,
-        percent(weight_over_var2n)
+                    NA_character_,
+                    percent(weight_over_var2n)
       ),
       tip = if_else(is.na(pct),
-        NA_character_,
-        as.character(str_glue("{pct} of articles with the keyword '{Var2}' also have the keyword '{Var1}'"))
+                    NA_character_,
+                    as.character(str_glue("{pct} of articles with the keyword '{Var2}' also have the keyword '{Var1}'"))
       )
     ) %>%
     arrange(desc(Var2_n), desc(weight)) %>%
@@ -1062,7 +1062,7 @@ draw_keyword_heatmap <- function(keyword_pairs) {
     scale_fill_viridis_c() +
     scale_x_discrete(label = function(x) str_trunc(x, width = 20)) +
     labs(x = NULL, y = NULL) +
-    theme_classic(base_size = 16) +
+    theme_classic(base_size = 24) + #16 24
     theme(
       legend.title = element_blank(),
       legend.key.size = unit(1.5, "cm")
@@ -1071,8 +1071,8 @@ draw_keyword_heatmap <- function(keyword_pairs) {
 
   girafe(
     ggobj = gg,
-    width_svg = 12,
-    height_svg = 9,
+    width_svg = 15, #12
+    height_svg = 10, #9
     options = list(
       opts_selection(
         type = "single",

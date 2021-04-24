@@ -8,7 +8,7 @@ The data for this project comes from the <a href="https://developer.nytimes.com/
 
 The API allows queries dating as far back as 1851, but the earliest record matching my query dates to 1860. My query stretched from this date until the end of 2020.
 
-All of the R scripts used to produce this project -- from the initial data query to the final app -- can be found in <a href="https://github.com/seanangio/nyt_india" target="_blank"> Github</a>.
+All of the R scripts used to produce this project -- from the initial data query to the final app -- can be found in <a href="https://github.com/seanangio/nytindia" target="_blank"> Github</a>.
 
 ### About the Project
 
@@ -20,7 +20,10 @@ This app offers a number of different ways to visualize and investigate 160 year
 - The **Maps** tab shows the geographic distribution of location keywords.
 - The **Keyword Pairs** tab explores the frequency at which two keywords are found in the same article.
 
-You can find my own analysis of the data in the **Analysis** tab. Those more interested in the technical details of querying, preparing, and visualizing the data with R should see the **Technical Details** tab.
+Two package vignettes support the project:
+
+- You can find my own analysis of the data in the <a href="https://seanangio.github.io/nytindia/articles/analysis.html" target="_blank"> Analysis</a> vignette. 
+- Those more interested in the technical details of querying, preparing, and visualizing the data with R should see the <a href="https://seanangio.github.io/nytindia/articles/technical-details.html" target="_blank"> Technical Details</a> vignette.
 
 ### About the Filters
 
