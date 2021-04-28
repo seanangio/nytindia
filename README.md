@@ -71,6 +71,8 @@ with more recent data, you can just run:
 nyt_build_data()
 ```
 
+The final dataset you need will be in your `nyt_shiny_app` folder.
+
 ## Run the Shiny App
 
 The package includes the shiny app below to visualize the results in
@@ -82,5 +84,6 @@ nyt_run_example("nyt_india_app")
 
 ## Analysis
 
-You can find analysis of the data and a summary of technical details in
-the package vignettes.
+You can find package vignettes [analyzing the data]() and summarizing
+the [technical
+details](https://seanangio.github.io/nytindia/articles/technical-details.html).

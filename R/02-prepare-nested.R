@@ -67,12 +67,15 @@ nyt_clean_api_tbl <- function(api_df,
     # for recent results, it's uninteresting (A, B, etc)
     # interesting for some older results, but simpler to not use as a replacement for section
     # subsection_name is interesting but largely covered by section
-  # e.g. if section is World, subsection will be Asia Pacific
-  # [it also wasn't present in original query]
-  dplyr::select(-c(snippet, source, headline.kicker,
-                   document_type, byline.organization,
-                   byline.person, word_count,
-                   print_section, subsection_name)) %>%
+    # e.g. if section is World, subsection will be Asia Pacific
+    # [it also wasn't present in original query]
+    # should be conditional-- if it exists, remove it...?
+    dplyr::select(-c(snippet, source, headline.kicker,
+                     document_type, byline.organization,
+                     byline.person, word_count,
+                     print_section)) %>%
+    # subsection name isn't always present
+    dplyr::select(-tidyselect::any_of("subsection_name")) %>%
     # remove any duplicates
     dplyr::distinct(web_url, .keep_all = TRUE) %>%
     dplyr::rename(
