@@ -72,7 +72,16 @@ The final dataset you need will be in your `nyt_shiny_app` folder.
 
 The package includes the shiny app below to visualize the results in many ways.
 
+To run it locally, you'll need the following packages included in the "Suggests" section of this package's DESCRIPTION file.
+
 ```{r shiny, eval=FALSE}
+shiny_pkgs <- c("shiny","markdown","ggplot2","forcats","scales",
+                "shinyWidgets","bsplus","shinycssloaders","DT",
+                "ggiraph","tidytext","tsbox","dygraphs","gt",
+                "leaflet","leaflet.extras","shinydashboard",
+                "waiter")
+install.packages(shiny_pkgs)
+
 nyt_run_example("nyt_india_app")
 ```
 
