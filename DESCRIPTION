@@ -31,7 +31,8 @@ Imports:
     purrr,
     tidyr,
     tidyselect,
-    here
+    here,
+    plyr
 Suggests: 
     shiny,
     testthat (>= 2.0.0),
