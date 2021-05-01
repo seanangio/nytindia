@@ -1070,6 +1070,7 @@ draw_keyword_heatmap <- function(keyword_pairs) {
     theme(
       legend.title = element_blank(),
       legend.key.size = unit(1.5, "cm"),
+      # weird alignment issue not found locally
       axis.text.y = element_text(hjust = 0.89)
     ) +
     guides(x = guide_axis(angle = 45))
