@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   technical-details: technical-details.html
-last_built: 2021-05-01T14:38Z
+last_built: 2021-05-01T15:47Z
 urls:
   reference: https://seanangio.github.io/nytindia/reference
   article: https://seanangio.github.io/nytindia/articles
