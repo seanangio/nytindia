@@ -694,7 +694,11 @@ build_gg <- function(trimmed_count_df, sub_title) {
         xlab("Total number of keywords for an article")
       }
     } +
-    theme_classic(base_size = 24) #16
+    theme_classic(base_size = 24) + #16
+    theme(
+      # fix weird alignment when deployed
+      axis.text.y = element_text(hjust = 0.89)
+    )
 }
 
 draw_girafe <- function(gg, var) {
@@ -1062,10 +1066,11 @@ draw_keyword_heatmap <- function(keyword_pairs) {
     scale_fill_viridis_c() +
     scale_x_discrete(label = function(x) str_trunc(x, width = 20)) +
     labs(x = NULL, y = NULL) +
-    theme_classic(base_size = 24) + #16 24
+    theme_classic(base_size = 24) +
     theme(
       legend.title = element_blank(),
-      legend.key.size = unit(1.5, "cm")
+      legend.key.size = unit(1.5, "cm"),
+      axis.text.y = element_text(hjust = 0.89)
     ) +
     guides(x = guide_axis(angle = 45))
 
