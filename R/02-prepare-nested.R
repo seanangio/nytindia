@@ -89,8 +89,8 @@ nyt_clean_api_tbl <- function(api_df,
     dplyr::mutate_if(is.character, stringr::str_trim) %>%
     dplyr::mutate(
       pub_date = as.Date(pub_date),
-      front_page = dplyr::if_else(as.numeric(print_page) == 1,
-                                  TRUE, FALSE), # NAs expected
+      front_page = dplyr::if_else(readr::parse_number(print_page) == 1,
+                                  TRUE, FALSE),
       # headline_print is different (typically shorter) than headline_main
       # it is missing for blogs; simpler to have one headline so dropping headline_print in favor of headline_main
       # but headline_print is still useful for creating a printed variable; FALSE values are mostly blogs or continuous news
