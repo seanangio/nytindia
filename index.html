@@ -83,16 +83,16 @@
 <a href="#nytindia---prepare-and-visualize-india-tagged-data-from-the-nyt-article-search-api" class="anchor"></a>nytindia - Prepare and visualize India-tagged data from the NYT Article Search API</h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>This package includes functions to query the <a href="https://developer.nytimes.com/docs/articlesearch-product/1/overview">Article Search API of The New York Times</a> for articles with an “India” location keyword. It includes functions to prepare this data to be ready for analysis and visualization, as well as a shiny app to interact with the output dataset.</p>
+<p>This package includes functions to query the <a href="https://developer.nytimes.com/docs/articlesearch-product/1/overview">Article Search API of The New York Times</a> for articles with an “India” location keyword. It includes functions to prepare this data to be ready for analysis, as well as a shiny app to visualize the output dataset.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>The impetus to re-structure what was originally a data analysis project as a package was:</p>
+<p>The impetus to restructure what was originally a data analysis project as a package was:</p>
 <ul>
 <li>to simplify updating the dataset over time</li>
 <li>to learn how to make a package.</li>
 </ul>
-<p>Accordingly, this is mostly an internal package, but it can be installed from GitHub:</p>
+<p>Accordingly, this is mostly a personal package, but it can be installed from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"seanangio/nytindia"</span><span class="op">)</span></code></pre></div>
@@ -106,36 +106,74 @@
 <span class="fu"><a href="reference/nyt_get_data.html">nyt_get_data</a></span><span class="op">(</span>begin_date <span class="op">=</span> <span class="st">"YYYY-MM-DD"</span>, 
              end_date <span class="op">=</span> <span class="st">"YYYY-MM-DD"</span><span class="op">)</span></code></pre></div>
 <p>You’ll need environmental variables called “NYTIMES_KEY” and “NYT_USER_AGENT”.</p>
-<p>Leaving <code>begin_date</code> empty will default to 1855 (the earliest available date). Leaving <code>end_date</code> empty will default to the current date.</p>
+<p>If the directory is empty, leaving <code>begin_date</code> empty will default to 1855 (the earliest available date). Otherwise, it will begin from the last date found. Leaving <code>end_date</code> empty will default to the current date.</p>
 <p>It queries up to the closest completed month.</p>
+<p>The query searches for all articles with an “India” location keyword. You should be able to change the default query with the parameters “q” and “fq”. See the reference documentation <a href="https://seanangio.github.io/nytindia/reference/nyt_get_data.html">here</a>.</p>
 </div>
 <div id="prepare-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#prepare-data" class="anchor"></a>Prepare Data</h2>
-<p>Once you have your data from the API, there is a pipeline of functions available to prepare the data. The first time through preparing the data, there are a few steps that require a pause in the pipeline:</p>
+<p>Once you have your data from the API, there is a pipeline of functions available to prepare the data. You can run the following to create the prepared dataset.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/nyt_build_data.html">nyt_build_data</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>This should successfully output a dataset in the <code>nyt_shiny_app</code> folder, but there are a number of manual steps that should ideally be included.</p>
 <ul>
 <li>renaming news desks</li>
 <li>renaming keyword values</li>
 <li>renaming categories of keywords</li>
 <li>geocoding locations</li>
 </ul>
-<p>These are optional, but your map will be empty and the keywords and news desk categories may be overlapping depending on the expanse of time you are querying.</p>
-<p>Once you have these steps complete and just want to update the dataset with more recent data, you can just run:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/nyt_build_data.html">nyt_build_data</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>The final dataset you need will be in your <code>nyt_shiny_app</code> folder.</p>
+<p>These are optional, but:</p>
+<ul>
+<li>the map will be empty,</li>
+<li>the keywords and news desk categories may be overlapping depending on the expanse of time you are querying,</li>
+<li>the keyword heatmap may be broken.</li>
+</ul>
+<p>That’s why <code><a href="reference/nyt_build_data.html">nyt_build_data()</a></code> is especially useful when just updating a dataset with a new month, when the lookup tables and geocoding has already been done.</p>
+<p>To build the dataset step by step, use the following script. This is essentially what <code><a href="reference/nyt_build_data.html">nyt_build_data()</a></code> is doing.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># 01-query-nyt-api.R</span>
+<span class="va">api_df</span> <span class="op">&lt;-</span> <span class="fu">bind_api_files</span><span class="op">(</span><span class="op">)</span>
+
+<span class="co"># 02-prepare-nested.R</span>
+<span class="va">combined_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nyt_bind_api_files.html">nyt_clean_api_tbl</a></span><span class="op">(</span><span class="va">api_df</span><span class="op">)</span>
+
+<span class="co"># 03-clean-news-desks.R</span>
+<span class="va">nested_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nyt_bind_news_desk_lookups.html">nyt_clean_news_desks</a></span><span class="op">(</span><span class="va">combined_df</span><span class="op">)</span>
+
+<span class="co"># 04-unnest-df.R</span>
+<span class="va">unnested_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nyt_unnest_df.html">nyt_unnest_df</a></span><span class="op">(</span><span class="va">nested_df</span><span class="op">)</span>
+
+<span class="co"># 05-clean-keywords.R</span>
+<span class="va">consolidated_unnested_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nyt_bind_values_lookups.html">nyt_clean_keywords</a></span><span class="op">(</span><span class="va">unnested_df</span><span class="op">)</span>
+
+<span class="co"># 06-fix-keywords.R</span>
+<span class="va">unnested_df_values_fixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nyt_fix_keywords.html">nyt_fix_keywords</a></span><span class="op">(</span><span class="va">consolidated_unnested_df</span><span class="op">)</span>
+
+<span class="co"># 07-query-mapquest.R</span>
+<span class="fu"><a href="reference/nyt_query_mapquest_api.html">nyt_query_mapquest_api</a></span><span class="op">(</span><span class="va">unnested_df_values_fixed</span><span class="op">)</span>
+
+<span class="co"># 08-add-coords-countries.R</span>
+<span class="va">full_unnested_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nyt_join_coords_countries.html">nyt_join_coords_countries</a></span><span class="op">(</span><span class="va">unnested_df_values_fixed</span><span class="op">)</span>
+
+<span class="co"># 09-re-nest-keywords.R</span>
+<span class="va">full_nested_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extract_rank.html">nyt_re_nest_keywords</a></span><span class="op">(</span><span class="va">full_unnested_df</span><span class="op">)</span>
+
+<span class="co"># 10-write-final-nested-df.R</span>
+<span class="fu"><a href="reference/nyt_write_final_nested_df.html">nyt_write_final_nested_df</a></span><span class="op">(</span><span class="va">full_nested_df</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="run-the-shiny-app" class="section level2">
 <h2 class="hasAnchor">
 <a href="#run-the-shiny-app" class="anchor"></a>Run the Shiny App</h2>
-<p>The package includes the shiny app below to visualize the results in many ways.</p>
+<p>The package includes a <a href="https://github.com/seanangio/nytindia/tree/master/inst/examples/nyt_india_app">shiny app</a> to visualize the results in many ways.</p>
 <p>To run it locally, you’ll need the following packages included in the “Suggests” section of this package’s DESCRIPTION file.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">shiny_pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"shiny"</span>,<span class="st">"markdown"</span>,<span class="st">"ggplot2"</span>,<span class="st">"forcats"</span>,<span class="st">"scales"</span>,
                 <span class="st">"shinyWidgets"</span>,<span class="st">"bsplus"</span>,<span class="st">"shinycssloaders"</span>,<span class="st">"DT"</span>,
                 <span class="st">"ggiraph"</span>,<span class="st">"tidytext"</span>,<span class="st">"tsbox"</span>,<span class="st">"dygraphs"</span>,<span class="st">"gt"</span>,
                 <span class="st">"leaflet"</span>,<span class="st">"leaflet.extras"</span>,<span class="st">"shinydashboard"</span>,
                 <span class="st">"waiter"</span><span class="op">)</span>
+
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">shiny_pkgs</span><span class="op">)</span>
 
 <span class="fu"><a href="reference/nyt_run_example.html">nyt_run_example</a></span><span class="op">(</span><span class="st">"nyt_india_app"</span><span class="op">)</span></code></pre></div>
@@ -143,7 +181,7 @@
 <div id="analysis" class="section level2">
 <h2 class="hasAnchor">
 <a href="#analysis" class="anchor"></a>Analysis</h2>
-<p>You can find package vignettes <a href="">analyzing the data</a> and summarizing the <a href="https://seanangio.github.io/nytindia/articles/technical-details.html">technical details</a>.</p>
+<p>You can find package vignettes <a href="https://seanangio.github.io/nytindia/articles/analysis.html">analyzing the data</a> and summarizing the <a href="https://seanangio.github.io/nytindia/articles/technical-details.html">technical details</a>.</p>
 </div>
 </div>
   </div>
