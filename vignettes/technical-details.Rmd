@@ -46,7 +46,7 @@ My goal was to collect every article in The New York Times "about India" dating 
 
 After reading a few tutorials on querying The New York Times' API, like [this one](http://www.storybench.org/working-with-the-new-york-times-api-in-r/), it was not too difficult to get the results I wanted. 
 
-My code in ``R/01-query-nyt-api.R`` is probably not the most robust script, but the main learning point was to iterate over small chunks of time. 
+My code in [R/01-query-nyt-api.R](https://github.com/seanangio/nytindia/blob/master/R/01-query-nyt-api.R) is probably not the most robust script, but the main learning point was to iterate over small chunks of time. 
 
 My query script essentially has two loops:
 
@@ -59,7 +59,7 @@ Having smaller time chunks ensures having fewer page results for each time chunk
 
 ## Consolidating Categories
 
-My API query produced a folder with one file for every year-month combination. The next step was to combine those files into one data frame, remove unnecessary columns, and begin cleaning the data (``R/02-prepare-nested.R``).
+My API query produced a folder with one file for every year-month combination. The next step was to combine those files into one data frame, remove unnecessary columns, and begin cleaning the data ([R/02-prepare-nested.R](https://github.com/seanangio/nytindia/blob/master/R/02-prepare-nested.R)).
 
 Many of the columns in the dataset contained multiple values that represent the same or nearly the same entity.
 
@@ -71,7 +71,7 @@ I needed to consolidate values referring to the same entity to one single value.
 
 A more automated solution like fuzzy matching, or approximate string matching, was also not viable as many of the correct matches are not actually that close in terms of string distance. On the other hand, values like "Gandhi, Rahul" and "Gandhi, Rajiv" are close in terms of string distance, but are two different people. Accordingly, all renaming required human review.
 
-My solution was to write a small Shiny app that would make it easy to create lookup tables. The code for this app is included in the package [here](https://github.com/seanangio/nytindia/inst/examples/lookup_table_app). 
+My solution was to write a small [shiny app](https://github.com/seanangio/nytindia/inst/examples/lookup_table_app) that would make it easy to create lookup tables.
 
 I would first create a file with counts of distinct names for a column like news desk or keyword values. I would choose the name I wanted to keep. The app would then sort all of the other values in the column by string distance. Between the similarity score and searching in the DataTable, I was able to find the most likely values to be consolidated under the chosen name. 
 
@@ -86,7 +86,7 @@ full_nested_df <- readRDS("../inst/examples/nyt_india_app/full_nested_df.rds")
 glimpse(full_nested_df)
 ```
 
-The nested *keywords* data frame from the Article Search API includes not only the keyword value, but also a category ("subject", "person", "glocation", "organization", or "creative_work") and its rank of importance in the article. The *lat*, *lon*, and *country* columns are added in the step below. Here's one example:
+The nested *keywords* data frame from the Article Search API includes not only the keyword value, but also a category ("subject", "person", "glocation", "organization", or "creative_work") and its rank of importance in the article. The *lat*, *lon*, and *country* columns are added in the step below. Here's one example of a single nested keyword data frame:
 
 ```{r echo=FALSE}
 full_nested_df$keywords[[1]]
@@ -100,15 +100,15 @@ Once keyword values were unnested and cleaned, I wanted to join in geographic co
 
 There are a number of free geocoding APIs available, many with R wrappers. I chose to query the [Mapquest Geocoding API](https://developer.mapquest.com/documentation/geocoding-api/) to return a longitude and latitude coordinate for every unique location keyword. I expect there are a few errors, but overall it did a good job.
 
-Again, my script (``R/07-query-mapquest.R``) is likely not the most robust, but, as there were a relatively small number of locations, it wasn't a difficult task. 
+Again, my script ([R/07-query-mapquest.R](https://github.com/seanangio/nytindia/blob/master/R/07-query-mapquest.R)) is likely not the most robust, but, as there were a relatively small number of locations, it wasn't a difficult task. 
 
-Location keywords include both cities and countries. They should really be distinguished in some way before plotting as bubbles on the same map. To achieve this, I joined in a list of country name data in order to identify which keywords are countries. Once again, likely not a perfect list, but it did the job. See ``R/08-add-coords-countries.R`` for details.
+Location keywords include both cities and countries. They should really be distinguished in some way before plotting as bubbles on the same map. To achieve this, I joined in a list of country name data in order to identify which keywords are countries. Once again, likely not a perfect list, but it did the job. See [R/08-add-coords-countries.R](https://github.com/seanangio/nytindia/blob/master/R/08-add-coords-countries.R) for details.
 
 ## Preparing Government Data
 
 One last piece of data needed was a history of Indian governments. This enabled filtering the dataset by a specific party or prime minister instead of a single date range. It also provided a helpful background for the timeline.
 
-This data came from [Wikipedia](https://en.wikipedia.org/wiki/List_of_prime_ministers_of_India). Instead of scraping it directly, copy-pasting into a Google sheet and then using the {datapasta} package was the easiest way to get the data into R. See ``data-raw/govt.R`` for more details.
+This data came from [Wikipedia](https://en.wikipedia.org/wiki/List_of_prime_ministers_of_India). Instead of scraping it directly, copy-pasting into a Google sheet and then using the {datapasta} package was the easiest way to get the data into R. See [data-raw/govt.R](https://github.com/seanangio/nytindia/blob/master/data-raw/govt.R) for more details.
 
 ```{r echo=FALSE}
 glimpse(govt)
@@ -116,7 +116,7 @@ glimpse(govt)
 
 # Building the Shiny App
 
-The key points for building the Shiny app were:
+The key points for building the [shiny app](https://github.com/seanangio/nytindia/tree/master/inst/examples/nyt_india_app) were:
 
 - simplifying ``ui.R`` with UI functions
 - writing the function to filter the unnested data frame
