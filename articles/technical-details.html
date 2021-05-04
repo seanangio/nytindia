@@ -113,7 +113,7 @@
 <li>and the source be one of “The New York Times”, “International New York Times”, or “International Herald Tribune”.</li>
 </ul>
 <p>After reading a few tutorials on querying The New York Times’ API, like <a href="http://www.storybench.org/working-with-the-new-york-times-api-in-r/">this one</a>, it was not too difficult to get the results I wanted.</p>
-<p>My code in <code>R/01-query-nyt-api.R</code> is probably not the most robust script, but the main learning point was to iterate over small chunks of time.</p>
+<p>My code in <a href="https://github.com/seanangio/nytindia/blob/master/R/01-query-nyt-api.R">R/01-query-nyt-api.R</a> is probably not the most robust script, but the main learning point was to iterate over small chunks of time.</p>
 <p>My query script essentially has two loops:</p>
 <ul>
 <li>The outer loop iterates over time periods.</li>
@@ -125,13 +125,13 @@
 <div id="consolidating-categories" class="section level2">
 <h2 class="hasAnchor">
 <a href="#consolidating-categories" class="anchor"></a>Consolidating Categories</h2>
-<p>My API query produced a folder with one file for every year-month combination. The next step was to combine those files into one data frame, remove unnecessary columns, and begin cleaning the data (<code>R/02-prepare-nested.R</code>).</p>
+<p>My API query produced a folder with one file for every year-month combination. The next step was to combine those files into one data frame, remove unnecessary columns, and begin cleaning the data (<a href="https://github.com/seanangio/nytindia/blob/master/R/02-prepare-nested.R">R/02-prepare-nested.R</a>).</p>
 <p>Many of the columns in the dataset contained multiple values that represent the same or nearly the same entity.</p>
 <p>For example, the raw values for a column like <em>news_desk</em> included “Business/Finance”, “Money and Business/Financial”, “Financial”, “Business”, “Business/World Business”, and “Business / World Business”.</p>
 <p>The same problem presented itself with a column like keyword values. To give one example, there were nine different attributions all referring to the same person (“Gandhi, Mohandas Karamchand”).</p>
 <p>I needed to consolidate values referring to the same entity to one single value. I initially approached this problem with a very long <code><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when()</a></code> statement. This quickly became untenable though as the severity of the problem became apparent.</p>
 <p>A more automated solution like fuzzy matching, or approximate string matching, was also not viable as many of the correct matches are not actually that close in terms of string distance. On the other hand, values like “Gandhi, Rahul” and “Gandhi, Rajiv” are close in terms of string distance, but are two different people. Accordingly, all renaming required human review.</p>
-<p>My solution was to write a small Shiny app that would make it easy to create lookup tables. The code for this app is included in the package <a href="https://github.com/seanangio/nytindia/inst/examples/lookup_table_app">here</a>.</p>
+<p>My solution was to write a small <a href="https://github.com/seanangio/nytindia/inst/examples/lookup_table_app">shiny app</a> that would make it easy to create lookup tables.</p>
 <p>I would first create a file with counts of distinct names for a column like news desk or keyword values. I would choose the name I wanted to keep. The app would then sort all of the other values in the column by string distance. Between the similarity score and searching in the DataTable, I was able to find the most likely values to be consolidated under the chosen name.</p>
 <div class="figure">
 <img src="lookup-table-app.png" style="width:75.0%" alt=""><p class="caption">Screenshot of Lookup Table shiny app</p>
@@ -158,7 +158,7 @@
 #&gt; $ india_rank     &lt;dbl&gt; 2, 1, 1, 1, 3, 12, 10, 10, 3, 1, 1, 10, 5, 1, 15, 7, 11…
 #&gt; $ max_kword      &lt;dbl&gt; 11, 8, 11, 15, 4, 26, 11, 11, 6, 3, 11, 12, 6, 6, 17, 9…
 #&gt; $ in_of_n_kword  &lt;glue&gt; "2 of 11", "1 of 8", "1 of 11", "1 of 15", "3 of 4", "…</code></pre>
-<p>The nested <em>keywords</em> data frame from the Article Search API includes not only the keyword value, but also a category (“subject”, “person”, “glocation”, “organization”, or “creative_work”) and its rank of importance in the article. The <em>lat</em>, <em>lon</em>, and <em>country</em> columns are added in the step below. Here’s one example:</p>
+<p>The nested <em>keywords</em> data frame from the Article Search API includes not only the keyword value, but also a category (“subject”, “person”, “glocation”, “organization”, or “creative_work”) and its rank of importance in the article. The <em>lat</em>, <em>lon</em>, and <em>country</em> columns are added in the step below. Here’s one example of a single nested keyword data frame:</p>
 <pre><code>#&gt; # A tibble: 11 x 6
 #&gt;    name          value                                  rank   lat   lon country
 #&gt;    &lt;chr&gt;         &lt;chr&gt;                                 &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;  
@@ -180,14 +180,14 @@
 <a href="#querying-location-data" class="anchor"></a>Querying Location Data</h2>
 <p>Once keyword values were unnested and cleaned, I wanted to join in geographic coordinates in order to visualize the location keywords on a map.</p>
 <p>There are a number of free geocoding APIs available, many with R wrappers. I chose to query the <a href="https://developer.mapquest.com/documentation/geocoding-api/">Mapquest Geocoding API</a> to return a longitude and latitude coordinate for every unique location keyword. I expect there are a few errors, but overall it did a good job.</p>
-<p>Again, my script (<code>R/07-query-mapquest.R</code>) is likely not the most robust, but, as there were a relatively small number of locations, it wasn’t a difficult task.</p>
-<p>Location keywords include both cities and countries. They should really be distinguished in some way before plotting as bubbles on the same map. To achieve this, I joined in a list of country name data in order to identify which keywords are countries. Once again, likely not a perfect list, but it did the job. See <code>R/08-add-coords-countries.R</code> for details.</p>
+<p>Again, my script (<a href="https://github.com/seanangio/nytindia/blob/master/R/07-query-mapquest.R">R/07-query-mapquest.R</a>) is likely not the most robust, but, as there were a relatively small number of locations, it wasn’t a difficult task.</p>
+<p>Location keywords include both cities and countries. They should really be distinguished in some way before plotting as bubbles on the same map. To achieve this, I joined in a list of country name data in order to identify which keywords are countries. Once again, likely not a perfect list, but it did the job. See <a href="https://github.com/seanangio/nytindia/blob/master/R/08-add-coords-countries.R">R/08-add-coords-countries.R</a> for details.</p>
 </div>
 <div id="preparing-government-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#preparing-government-data" class="anchor"></a>Preparing Government Data</h2>
 <p>One last piece of data needed was a history of Indian governments. This enabled filtering the dataset by a specific party or prime minister instead of a single date range. It also provided a helpful background for the timeline.</p>
-<p>This data came from <a href="https://en.wikipedia.org/wiki/List_of_prime_ministers_of_India">Wikipedia</a>. Instead of scraping it directly, copy-pasting into a Google sheet and then using the {datapasta} package was the easiest way to get the data into R. See <code>data-raw/govt.R</code> for more details.</p>
+<p>This data came from <a href="https://en.wikipedia.org/wiki/List_of_prime_ministers_of_India">Wikipedia</a>. Instead of scraping it directly, copy-pasting into a Google sheet and then using the {datapasta} package was the easiest way to get the data into R. See <a href="https://github.com/seanangio/nytindia/blob/master/data-raw/govt.R">data-raw/govt.R</a> for more details.</p>
 <pre><code>#&gt; Rows: 28
 #&gt; Columns: 7
 #&gt; $ pm        &lt;chr&gt; "Viceroy", "Jawaharlal Nehru", "Jawaharlal Nehru", "Jawaharl…
@@ -202,7 +202,7 @@
 <div id="building-the-shiny-app" class="section level1">
 <h1 class="hasAnchor">
 <a href="#building-the-shiny-app" class="anchor"></a>Building the Shiny App</h1>
-<p>The key points for building the Shiny app were:</p>
+<p>The key points for building the <a href="https://github.com/seanangio/nytindia/tree/master/inst/examples/nyt_india_app">shiny app</a> were:</p>
 <ul>
 <li>simplifying <code>ui.R</code> with UI functions</li>
 <li>writing the function to filter the unnested data frame</li>
