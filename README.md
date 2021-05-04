@@ -94,7 +94,7 @@ essentially what `nyt_build_data()` is doing.
 
 ``` r
 # 01-query-nyt-api.R
-api_df <- bind_api_files()
+api_df <- nyt_bind_api_files()
 
 # 02-prepare-nested.R
 combined_df <- nyt_clean_api_tbl(api_df)

@@ -78,7 +78,7 @@ nyt_clean_keywords <- function(unnested_df,
   }
 
   fn <- here::here(multi_names_input_folder, "multi_named_keywords.csv")
-  readr::write_rds(keywords_with_different_names, fn)
+  readr::write_csv(keywords_with_different_names, fn)
 
   if (!dir.exists(multi_names_output_folder)) {
     dir.create(multi_names_output_folder)
