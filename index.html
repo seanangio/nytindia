@@ -116,14 +116,14 @@
 <p>Once you have your data from the API, there is a pipeline of functions available to prepare the data. You can run the following to create the prepared dataset.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/nyt_build_data.html">nyt_build_data</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>This should successfully output a dataset in the <code>nyt_shiny_app</code> folder, but there are a number of manual steps that should ideally be included.</p>
+<p>This should successfully output a dataset in a folder called <code>nyt_shiny_app</code>, but there are a number of manual steps that should ideally be included – as explained in the reference documentation and the <a href="https://seanangio.github.io/nytindia/articles/technical-details.html">Technical Details</a> vignette.</p>
 <ul>
 <li>renaming news desks</li>
 <li>renaming keyword values</li>
 <li>renaming categories of keywords</li>
 <li>geocoding locations</li>
 </ul>
-<p>These are optional, but:</p>
+<p>These are optional, but without them:</p>
 <ul>
 <li>the map will be empty,</li>
 <li>the keywords and news desk categories may be overlapping depending on the expanse of time you are querying,</li>
@@ -160,7 +160,10 @@
 <span class="va">full_nested_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extract_rank.html">nyt_re_nest_keywords</a></span><span class="op">(</span><span class="va">full_unnested_df</span><span class="op">)</span>
 
 <span class="co"># 10-write-final-nested-df.R</span>
-<span class="fu"><a href="reference/nyt_write_final_nested_df.html">nyt_write_final_nested_df</a></span><span class="op">(</span><span class="va">full_nested_df</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="reference/nyt_write_final_nested_df.html">nyt_write_final_nested_df</a></span><span class="op">(</span><span class="va">full_nested_df</span><span class="op">)</span>
+
+<span class="co"># 11-download-shiny-files.R</span>
+<span class="fu"><a href="reference/nyt_download_shiny_files.html">nyt_download_shiny_files</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="run-the-shiny-app" class="section level2">
 <h2 class="hasAnchor">
