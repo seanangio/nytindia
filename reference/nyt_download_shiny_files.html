@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • nytindia</title>
+<title>Download shiny app files — nyt_download_shiny_files • nytindia</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Download shiny app files — nyt_download_shiny_files" />
+<meta property="og:description" content="nyt_build_data() creates the final nested dataset.
+But to run the shiny app locally, you'll need the files
+here" />
 
 
 
@@ -58,7 +61,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -115,126 +118,40 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Download shiny app files</h1>
+    
+    <div class="hidden name"><code>nyt_download_shiny_files.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p><code><a href='nyt_build_data.html'>nyt_build_data()</a></code> creates the final nested dataset.
+But to run the shiny app locally, you'll need the files
+<a href='https://github.com/seanangio/nytindia/tree/master/inst/examples/nyt_india_app'>here</a></p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>nyt_download_shiny_files</span><span class='op'>(</span>shiny_app_folder <span class='op'>=</span> <span class='st'>"nyt_shiny_app"</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="govt.html">govt</a></code> </p>
-        </td>
-        <td><p>Indian governments by date, party, and prime minister</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_bind_api_files.html">nyt_bind_api_files()</a></code> <code><a href="nyt_bind_api_files.html">nyt_clean_api_tbl()</a></code> </p>
-        </td>
-        <td><p>Bind monthly rds files into single nested df and perform initial cleaning</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_bind_news_desk_lookups.html">nyt_bind_news_desk_lookups()</a></code> <code><a href="nyt_bind_news_desk_lookups.html">nyt_clean_news_desks()</a></code> </p>
-        </td>
-        <td><p>Clean 'news_desk' values</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_bind_values_lookups.html">nyt_bind_values_lookups()</a></code> <code><a href="nyt_bind_values_lookups.html">nyt_clean_keywords()</a></code> </p>
-        </td>
-        <td><p>Clean keywords</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_build_data.html">nyt_build_data()</a></code> </p>
-        </td>
-        <td><p>Build data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_download_shiny_files.html">nyt_download_shiny_files()</a></code> </p>
-        </td>
-        <td><p>Download shiny app files</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_fix_keywords.html">nyt_fix_keywords()</a></code> </p>
-        </td>
-        <td><p>Fix keywords</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_get_data.html">nyt_get_data()</a></code> <code><a href="nyt_get_data.html">nyt_set_query_params()</a></code> <code><a href="nyt_get_data.html">nyt_set_time_chunks()</a></code> <code><a href="nyt_get_data.html">nyt_query_api()</a></code> </p>
-        </td>
-        <td><p>Query India-tagged articles from the New York Times Article Search API</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_join_coords_countries.html">nyt_join_coords_countries()</a></code> </p>
-        </td>
-        <td><p>Join in coordinates and country status for location keywords</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_query_mapquest_api.html">nyt_query_mapquest_api()</a></code> </p>
-        </td>
-        <td><p>Query Mapquest API for lat-lon coordinates</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_re_nest_keywords.html">extract_rank()</a></code> <code><a href="nyt_re_nest_keywords.html">find_max_kword()</a></code> <code><a href="nyt_re_nest_keywords.html">nyt_re_nest_keywords()</a></code> </p>
-        </td>
-        <td><p>Re-nest keywords</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_run_example.html">nyt_run_example()</a></code> </p>
-        </td>
-        <td><p>Run NYT India app with sample data or lookup table app</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_unnest_df.html">nyt_unnest_df()</a></code> </p>
-        </td>
-        <td><p>Unnest keyword values from nested df</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_write_final_nested_df.html">nyt_write_final_nested_df()</a></code> </p>
-        </td>
-        <td><p>Write final nested dataset for shiny app</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nytindia.html">nytindia</a></code> </p>
-        </td>
-        <td><p><code>nytindia</code> package</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>shiny_app_folder</th>
+      <td><p>name of shiny app folder</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>nyt_download_shiny_files()</code> downloads necessary ui.R/server.R etc to run shiny app locally</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>nyt_download_shiny_files</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
