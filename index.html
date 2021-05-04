@@ -133,7 +133,7 @@
 <p>To build the dataset step by step, use the following script. This is essentially what <code><a href="reference/nyt_build_data.html">nyt_build_data()</a></code> is doing.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># 01-query-nyt-api.R</span>
-<span class="va">api_df</span> <span class="op">&lt;-</span> <span class="fu">bind_api_files</span><span class="op">(</span><span class="op">)</span>
+<span class="va">api_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nyt_bind_api_files.html">nyt_bind_api_files</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># 02-prepare-nested.R</span>
 <span class="va">combined_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nyt_bind_api_files.html">nyt_clean_api_tbl</a></span><span class="op">(</span><span class="va">api_df</span><span class="op">)</span>
