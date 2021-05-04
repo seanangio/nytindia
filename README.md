@@ -9,9 +9,9 @@
 This package includes functions to query the [Article Search API of The
 New York
 Times](https://developer.nytimes.com/docs/articlesearch-product/1/overview)
-for articles with an “India” location keyword. It includes functions to
-prepare this data to be ready for analysis, as well as a shiny app to
-visualize the output dataset.
+for articles with an “India” location keyword. It also includes
+functions to prepare this data to be ready for analysis, as well as a
+shiny app to visualize the output dataset.
 
 ## Installation
 
