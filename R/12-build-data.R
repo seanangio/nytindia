@@ -61,5 +61,7 @@ nyt_build_data <- function(desks_to_replace = FALSE,
 
   nyt_write_final_nested_df(full_nested_df, ...)
 
+  nyt_download_shiny_files()
+
 
 }
