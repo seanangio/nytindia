@@ -37,6 +37,10 @@ nyt_download_shiny_files <- function(shiny_app_folder = "nyt_shiny_app") {
 
   urls <- stringr::str_subset(full_repo_filelist, my_shiny_folder_repo_path)
 
+  if (!dir.exists(here::here(shiny_app_folder))) {
+    dir.create(here::here(shiny_app_folder))
+  }
+
   if (!dir.exists(here::here(shiny_app_folder, "www"))) {
     dir.create(here::here(shiny_app_folder, "www"))
   }

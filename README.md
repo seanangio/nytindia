@@ -66,15 +66,19 @@ prepared dataset.
 nyt_build_data()
 ```
 
-This should successfully output a dataset in the `nyt_shiny_app` folder,
-but there are a number of manual steps that should ideally be included.
+This should successfully output a dataset in a folder called
+`nyt_shiny_app`, but there are a number of manual steps that should
+ideally be included – as explained in the reference documentation and
+the [Technical
+Details](https://seanangio.github.io/nytindia/articles/technical-details.html)
+vignette.
 
 -   renaming news desks
 -   renaming keyword values
 -   renaming categories of keywords
 -   geocoding locations
 
-These are optional, but:
+These are optional, but without them:
 
 -   the map will be empty,
 -   the keywords and news desk categories may be overlapping depending
@@ -118,6 +122,9 @@ full_nested_df <- nyt_re_nest_keywords(full_unnested_df)
 
 # 10-write-final-nested-df.R
 nyt_write_final_nested_df(full_nested_df)
+
+# 11-download-shiny-files.R
+nyt_download_shiny_files()
 ```
 
 ## Run the Shiny App
