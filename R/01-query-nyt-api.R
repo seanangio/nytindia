@@ -85,7 +85,7 @@ nyt_set_time_chunks <- function(begin_date = NULL,
     dir.create(api_data_folder)
   }
   # earliest date API is available
-  api_origin_date <- as.Date("1855-01-01")
+  api_origin_date <- as.Date("1851-01-01")
 
   begin_date <- if (!is.null(begin_date)) {
 
