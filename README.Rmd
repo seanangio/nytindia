@@ -45,7 +45,7 @@ nyt_get_data(begin_date = "YYYY-MM-DD",
 
 You'll need environmental variables called "NYTIMES_KEY" and "NYT_USER_AGENT". 
 
-If the directory is empty, leaving `begin_date` empty will default to 1855 (the earliest available date). Otherwise, it will begin from the last date found. Leaving `end_date` empty will default to the current date.
+If the directory is empty, leaving `begin_date` empty will default to 1851 (the earliest available date). Otherwise, it will begin from the last date found. Leaving `end_date` empty will default to the current date.
 
 It queries up to the closest completed month.
 

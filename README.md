@@ -45,7 +45,7 @@ You’ll need environmental variables called “NYTIMES\_KEY” and
 “NYT\_USER\_AGENT”.
 
 If the directory is empty, leaving `begin_date` empty will default to
-1855 (the earliest available date). Otherwise, it will begin from the
+1851 (the earliest available date). Otherwise, it will begin from the
 last date found. Leaving `end_date` empty will default to the current
 date.
 
