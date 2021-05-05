@@ -105,13 +105,15 @@ nyt_clean_api_tbl <- function(api_df,
                                 " ", abstract),
       news_desk = stringr::str_remove(news_desk, ";$"),
       news_desk = stringr::str_trim(stringr::str_remove(news_desk, "Desk$")),
+      # for section and material, "NA" used instead of NA_character
+      # because of shiny inputs
       section = dplyr::if_else(is.na(section), "NA", section),
       section = dplyr::case_when(
         section %in% c("International Home", "NA") ~ "World",
         section %in% c("Video") ~ "Multimedia/Photos",
         TRUE ~ section
       ),
-      material = dplyr::if_else(is.na(material), NA_character_, material),
+      material = dplyr::if_else(is.na(material), "NA", material),
       material = dplyr::case_when(
         # where more than one material type listed; go with first
         material %in% c("Obituary (Obit)",
