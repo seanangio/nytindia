@@ -11,7 +11,8 @@ New York
 Times](https://developer.nytimes.com/docs/articlesearch-product/1/overview)
 for articles with an “India” location keyword. It also includes
 functions to prepare this data to be ready for analysis, as well as a
-shiny app to visualize the output dataset.
+[shiny app](https://seanangio.shinyapps.io/project/) to visualize the
+output dataset.
 
 ## Installation
 
