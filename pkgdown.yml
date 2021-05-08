@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   analysis: analysis.html
   technical-details: technical-details.html
-last_built: 2021-05-05T12:53Z
+last_built: 2021-05-08T14:59Z
 urls:
   reference: https://seanangio.github.io/nytindia/reference
   article: https://seanangio.github.io/nytindia/articles
