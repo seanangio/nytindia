@@ -9,10 +9,103 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
+library(knitr)
+opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = FALSE,
+  out.width = "70%"
 )
+library(here)
+read_chunk(here("inst","examples","analysis_code","analysis_code.R"))
 ```
 
-## Coming soon!
+## This is a work in progress!
+
+```{r read_data, message=FALSE}
+```
+
+The analysis here only reflects data before 2021.
+
+## Goals
+
+At the outset of this project, my objective was to  characterize the coverage of India in The New York Times. Specifically,
+
+- Has there been a change over time in the amount of coverage that The New York Times has devoted to India?
+- In addition to observing the most frequent topics, what keywords appear together most often?
+- Is it possible to discern any differences in the nature of coverage between the news and editorial desks?
+
+## Before Browsing
+
+The ability to answer big questions like these depends heavily on the extent to which the data can serve as a reliable summary for 160 years of reporting. 
+
+Before drawing any conclusions from the visualizations, it is important to recognize that certain qualities about the data returned from the API, at the very least, complicate long-term comparisons. Although data is available as far back as 1860, the nature of data returned from the API over time includes significant changes. 
+
+### Changes to Keyword Tagging
+
+```{r keyword_changes}
+```
+
+Although the API documentation allows queries back as far as 1851, the earliest result with an India location keyword was 1860. Based on this point alone, it seems unwise to conclude with certainty that there were zero articles about India in the 1850s, which included momentous events like the Sepoy Mutiny of 1857.
+
+Even adjusting the API query from an India location keyword to a simpler India query string failed to return more results during this time period.
+
+The dedication of keyword tagging has clearly increased over time. In 1860, an average article had just `r avg_kw_1860` keywords. In 2020, the average article had `r avg_kw_2020` keywords.
+
+```{r avg_keywords}
+```
+
+This massive change in keyword tagging practice must condition the conclusions one draws based on keyword data over long periods of time.
+
+For example, as shown in the **Counts** tab, Narendra Modi is the most frequent person keyword in the whole dataset. However, it would be unfair to conclude, based on this evidence, that he is the most-discussed person in the history of the NYT's coverage of India. If you browse the early articles, it is not unusual to find articles referring to Mahatma Gandhi in the headline, but without including him as a keyword.
+
+```{r early_gandhi}
+```
+
+
+### Changes to News Desk, Section, and Material Values
+
+The level of specificity in categorizing an article also improves over time. Recent articles have descriptive categories for *news_desk* (such as Foreign, Editorial, or Travel), *section* (such as World, Opinion, or Arts), and *material* (such as News, Letter, or Obituary). However, 
+
+- Before 1981, the only *news_desk*  value is "None".
+- Before 1981, the only *section* value is "Archives". 
+- Before 1964, the only *material* value is "Archives". 
+
+Accordingly, applying a filter of "Foreign" *news_desk* removes any article before 1981. Using a combination of the app's **Counts**, **Timeline**, and **Table** tabs allows one to sense-check the applied filters.
+
+### Changes to Text Values
+
+For the most part, the API does not return the text of the original articles. It returns metadata that can help characterize what an article is about. 
+
+Three columns though -- *headline*, *abstract*, and *lead_paragraph* -- do provide natural language data. For these columns, it is important to recognize that the style or format of newspapers has changed over such a long period of time. Depending on the year, *headline*, *abstract*, and *lead_paragraph* can return very different results.
+
+```{r avg_word_count}
+```
+
+If you browse the early articles, you'll note how it is very common to find articles with headlines that are either the length of a paragraph or just 2-3 words. The current *headline* convention only dates to about 1965.
+
+For some periods of time, it is standard practice to find both an abstract and a lead paragraph. In other periods, an article may only have an abstract, or nothing at all.
+
+The contents of the *abstract* and *lead_paragraph* change wildly over time.
+
+- Before 1964, almost no articles have *lead_paragraph* data.
+- The *abstract* in articles before 1965 might just be a few words. It then peaks around 1985 before settling near its current value since 2007.
+- In some cases, *abstract* and *lead_paragraph* are near duplicates of each other.
+
+Accordingly, like with keyword data, one should be cautious about making comparisons using word frequency data over long periods of time.
+
+### Understanding Article Counts
+
+One might be tempted to draw conclusions about the importance of a topic based on the number of articles published over time. Before making such conclusions however, one should understand what is included (and what is excluded) from the data set.
+
+For example, should blogs be treated the same as front page news? You can use the filters to adjust these settings as needed. 
+
+- About `r non_printed_pct`% of the data are not printed (e.g. blogs).
+- About `r front_page_pct`% of the data are front page articles.
+
+To give another example, letters to the editor are treated as separate "articles" since they have unique URLs. Accordingly, five different letters to the editor (each only an opinion a paragraph long) may appear as five articles on the same day with the same title. 
+
+```{r letters_to_editor}
+```
+
+

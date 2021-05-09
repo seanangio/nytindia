@@ -1,0 +1,54 @@
+---
+title: "analysis_draft"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## First draft of history
+
+In addition to trying to summarize the data, it is also quite interesting to mine the data for specific historic events.
+
+Dec 13, 1911 Delhi durbar
+Aug 14, 1947 independence
+Jan 30, 1948 Gandhi's assassination
+June 25, 1975 Emergency (Gandhi Coup)
+July 25, 1991 liberalization
+
+Jallianwala Bagh Massacre not found; article months later of British testifying to violence of crowds; 
+
+Jallianwala is not a keyword at all. Instead, you can find a person keyword for General Dyer or search for "Jallianwala" as text. For coverage of the massacre, you'll only find an article presenting the testimony of British troops defending their actions months after the event, an article about General Dyer 
+
+need to combine dyer keywords
+
+sometimes abstract and lead are same and that's bad...i fixed...
+
+## keyword pairs
+
+30% of articles with bjp have hinduism
+
+the filters let you set a minimum rank for 'india'; but histogram on counts tab shows distribution; setting a maximum rank of 10 removes only 1% of articles; max rank of 5 removes 5%
+
+keywords are messy; lot of work to consolidate categories
+
+**need to merge indian national congress and congress party**
+
+## timeline stuff
+
+2004 India on front page printed news 115 times (30% of the time!)
+- mostly due to "World Business Briefing" (only a paragraph long)
+2009 (next general election); just 26 times (7%)
+
+at first glance, what are the highest years?
+- important to understand what's included
+- turn off blogs
+- turn off letters
+- look again: 1930, 47, 62...
+- a lot of variance but actually a decline
+
+2012,13,14 are the highest years; no longer after removing blogs
+new highest are 1962 (india-china war), 1947 (independence), 1930 (salt march, civil disobedience), 1965 (india-pakistan war), 2006 (?)
+
+surge in opeds with rise of Hindu right?
