@@ -17,11 +17,10 @@ opts_chunk$set(
   out.width = "70%"
 )
 library(here)
-# read_chunk(here("inst","examples","analysis_code","analysis_code.R"))
-read_chunk("analysis_code.R")
+read_chunk(here("inst","examples","analysis_code","analysis_code.R"))
 ```
 
-## This is an early work in progress!
+## This is a work in progress!
 
 ```{r read_data, message=FALSE}
 ```
