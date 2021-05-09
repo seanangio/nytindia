@@ -20,7 +20,7 @@ library(here)
 read_chunk(here("inst","examples","analysis_code","analysis_code.R"))
 ```
 
-## This is a work in progress!
+## This is an early work in progress!
 
 ```{r read_data, message=FALSE}
 ```
