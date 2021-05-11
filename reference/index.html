@@ -103,7 +103,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/seanangio/nytindia/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -131,7 +136,7 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-query-data" class="hasAnchor"><a href="#section-query-data" class="anchor"></a>Query Data</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -143,9 +148,28 @@
       <tr>
         
         <td>
-          <p><code><a href="govt.html">govt</a></code> </p>
+          <p><code><a href="nyt_get_data.html">nyt_get_data()</a></code> <code><a href="nyt_get_data.html">nyt_set_query_params()</a></code> <code><a href="nyt_get_data.html">nyt_set_time_chunks()</a></code> <code><a href="nyt_get_data.html">nyt_query_api()</a></code> </p>
         </td>
-        <td><p>Indian governments by date, party, and prime minister</p></td>
+        <td><p>Query India-tagged articles from the New York Times Article Search API</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-prepare-data" class="hasAnchor"><a href="#section-prepare-data" class="anchor"></a>Prepare Data</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="nyt_build_data.html">nyt_build_data()</a></code> </p>
+        </td>
+        <td><p>Build data</p></td>
       </tr><tr>
         
         <td>
@@ -161,21 +185,15 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="nyt_unnest_df.html">nyt_unnest_df()</a></code> </p>
+        </td>
+        <td><p>Unnest keyword values from nested df</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="nyt_bind_values_lookups.html">nyt_bind_values_lookups()</a></code> <code><a href="nyt_bind_values_lookups.html">nyt_clean_keywords()</a></code> </p>
         </td>
         <td><p>Clean keywords</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_build_data.html">nyt_build_data()</a></code> </p>
-        </td>
-        <td><p>Build data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_download_shiny_files.html">nyt_download_shiny_files()</a></code> </p>
-        </td>
-        <td><p>Download shiny app files</p></td>
       </tr><tr>
         
         <td>
@@ -185,9 +203,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="nyt_get_data.html">nyt_get_data()</a></code> <code><a href="nyt_get_data.html">nyt_set_query_params()</a></code> <code><a href="nyt_get_data.html">nyt_set_time_chunks()</a></code> <code><a href="nyt_get_data.html">nyt_query_api()</a></code> </p>
+          <p><code><a href="nyt_query_mapquest_api.html">nyt_query_mapquest_api()</a></code> </p>
         </td>
-        <td><p>Query India-tagged articles from the New York Times Article Search API</p></td>
+        <td><p>Query Mapquest API for lat-lon coordinates</p></td>
       </tr><tr>
         
         <td>
@@ -197,27 +215,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="nyt_query_mapquest_api.html">nyt_query_mapquest_api()</a></code> </p>
-        </td>
-        <td><p>Query Mapquest API for lat-lon coordinates</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="nyt_re_nest_keywords.html">extract_rank()</a></code> <code><a href="nyt_re_nest_keywords.html">find_max_kword()</a></code> <code><a href="nyt_re_nest_keywords.html">nyt_re_nest_keywords()</a></code> </p>
         </td>
         <td><p>Re-nest keywords</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_run_example.html">nyt_run_example()</a></code> </p>
-        </td>
-        <td><p>Run NYT India app with sample data or lookup table app</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nyt_unnest_df.html">nyt_unnest_df()</a></code> </p>
-        </td>
-        <td><p>Unnest keyword values from nested df</p></td>
       </tr><tr>
         
         <td>
@@ -227,9 +227,53 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="nyt_download_shiny_files.html">nyt_download_shiny_files()</a></code> </p>
+        </td>
+        <td><p>Download shiny app files</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-run-the-shiny-app" class="hasAnchor"><a href="#section-run-the-shiny-app" class="anchor"></a>Run the Shiny App</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="nyt_run_example.html">nyt_run_example()</a></code> </p>
+        </td>
+        <td><p>Run NYT India app with sample data or lookup table app</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-miscellaneous" class="hasAnchor"><a href="#section-miscellaneous" class="anchor"></a>Miscellaneous</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
           <p><code><a href="nytindia.html">nytindia</a></code> </p>
         </td>
         <td><p><code>nytindia</code> package</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="govt.html">govt</a></code> </p>
+        </td>
+        <td><p>Indian governments by date, party, and prime minister</p></td>
       </tr>
     </tbody>
     </table>
