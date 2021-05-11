@@ -1,1 +1,25 @@
 url: https://seanangio.github.io/nytindia
+reference:
+- title: "Query Data"
+- contents:
+  - nyt_get_data
+- title: "Prepare Data"
+- contents:
+  - nyt_build_data
+  - nyt_bind_api_files
+  - nyt_bind_news_desk_lookups
+  - nyt_unnest_df
+  - nyt_bind_values_lookups
+  - nyt_fix_keywords
+  - nyt_query_mapquest_api
+  - nyt_join_coords_countries
+  - nyt_re_nest_keywords
+  - nyt_write_final_nested_df
+  - nyt_download_shiny_files
+- title: "Run the Shiny App"
+- contents:
+  - nyt_run_example
+- title: "Miscellaneous"
+- contents:
+  - nytindia
+  - govt
