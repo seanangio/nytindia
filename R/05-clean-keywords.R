@@ -5,7 +5,7 @@
 #' your renamed values should be in the "renamed_values" folder.
 #' This steps joins in the replacement keywords. You also have to
 #' ensure every keyword has one name (or category). Possible names
-#' are "subjects", "persons", "glocations", "organizations", or
+#' are "subject", "persons", "glocations", "organizations", or
 #' "creative_works". These cases are somewhat rare but simplify
 #' network analysis. This steps writes a file in the
 #' "multi_named_values" folder. Before running the next step,
