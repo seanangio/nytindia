@@ -10,11 +10,18 @@ library(magrittr)
 library(DT)
 library(tidyr)
 library(ggiraph)
+library(dygraphs)
+library(tsbox)
+library(lubridate)
 
 full_nested_df <- read_rds(here("inst","examples",
                                 "nyt_india_app",
                                 "full_nested_df.rds")) %>%
     filter(pub_date < "2021-01-01")
+
+govt <- read_csv(here("inst","examples",
+                      "nyt_india_app",
+                      "govt.csv"))
 
 ## @knitr keyword_changes
 avg_kw <- full_nested_df %>%
@@ -152,3 +159,82 @@ full_nested_df %>%
 #     mutate(n = n()) %>%
 #     filter(n>6) %>% View()
 #     count(pub_date)
+
+## @knitr india_ink
+india_ink <- full_nested_df %>%
+  filter(str_detect(url, "india.blogs")) %>%
+  summarize(n = n(),
+            first_day = min(pub_date),
+            last_day = max(pub_date),
+            interval = as.numeric(difftime(last_day, first_day, units = "days")),
+            posts_per_day = n / interval
+            )
+
+## @knitr timeline_printed
+
+# for shading the timeline background
+govt_list <- split(govt, seq(nrow(govt)))
+add_shades <- function(x, periods, ...) {
+  # https://stackoverflow.com/questions/30805017/dyshading-r-dygraph
+  for (period in periods) {
+    x <- dyShading(x,
+                   from = period$from,
+                   to = period$to,
+                   color = period$color, ...
+    )
+  }
+  x
+}
+
+draw_article_blog_dygraph <- function(ts) {
+
+  dygraph(ts, main = "Printed and digital-only article counts") %>%
+    dyOptions(
+      drawPoints = TRUE,
+      pointSize = 2,
+      axisLineWidth = 2.5,
+      colors = c("white", "black"),
+      strokeWidth = 1
+    ) %>%
+    dySeries(label = "Article Count") %>%
+    dyHighlight(
+      highlightCircleSize = 5,
+      highlightSeriesBackgroundAlpha = 0.2
+    ) %>%
+    add_shades(govt_list)
+}
+
+full_nested_df %>%
+  mutate(time = floor_date(pub_date, "year")) %>%
+  group_by(printed) %>%
+  count(time) %>%
+  ts_xts() %>%
+  draw_article_blog_dygraph()
+
+## @knitr timeline_front_page
+
+draw_front_page_dygraph <- function(ts) {
+
+  dygraph(ts, main = "Front page Article Counts") %>%
+    dyOptions(
+      drawPoints = TRUE,
+      pointSize = 2,
+      axisLineWidth = 2.5,
+      colors = c("black"),
+      strokeWidth = 1
+    ) %>%
+    dySeries(label = "Article Count") %>%
+    dyHighlight(
+      highlightCircleSize = 5,
+      highlightSeriesBackgroundAlpha = 0.2
+    ) %>%
+    add_shades(govt_list)
+}
+
+full_nested_df %>%
+  filter(front_page==TRUE) %>%
+  filter(!str_detect(headline, "World Business Briefing")) %>%
+  mutate(time = floor_date(pub_date, "year")) %>%
+  count(time) %>%
+  ts_xts() %>%
+  draw_front_page_dygraph()

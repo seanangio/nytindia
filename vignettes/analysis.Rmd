@@ -14,9 +14,11 @@ opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   echo = FALSE,
+  message = FALSE,
   out.width = "70%"
 )
 library(here)
+library(scales)
 # https://github.com/r-lib/pkgdown/issues/1159
 do.call(read_chunk, 
         list(path = here("inst","examples",
@@ -28,7 +30,7 @@ do.call(read_chunk,
 ```{r read_data, message=FALSE}
 ```
 
-The analysis here only reflects data before 2021.
+The analysis here only reflects data up to and including 2020.
 
 ## Goals
 
@@ -111,4 +113,35 @@ To give another example, letters to the editor are treated as separate "articles
 ```{r letters_to_editor}
 ```
 
+## Timeline Analysis
 
+Can we identify trends in the quantity of coverage that the New York Times has devoted to India? 
+
+At first glance, it appears that the peak of India coverage came around 2012-2014. However, the shift to (and later shift away from) blogging complicates this understanding. The NYT [India Ink blog](https://india.blogs.nytimes.com) ran from September 2011 to June 2014. 
+
+```{r india_ink}
+```
+
+This was a period of intense coverage -- `r scales::comma(india_ink$n)` posts over `r scales::comma(india_ink$interval)` days, or `r round(india_ink$posts_per_day, 1)` posts per day.There are important reasons why the NYT devoted these resources to India during this time period. The lead up to the 2014 general elections (which elected a majority BJP government for the first time in history) is certainly one key story line.
+
+For long term comparisons, however, digital-only content is somewhat of an apples-to-oranges comparison to printed news.
+
+After removing blogs from the trend of printed news, the picture is very different. 2012-2014 no longer stands out as exceptional. Of course, if the India Ink blog was not running, perhaps more print articles would have been published during this same time period.
+
+```{r timeline_printed, out.width = "90%"}
+```
+
+The closest apples-to-apples comparison is to restrict the pool of articles to front page news. In addition, for the numbers below, I removed articles that include "World Business Briefing" in the headline, which was a short roundup of business stories from around the world that commonly landed on the front page during some years-- not exactly big India stories. 
+
+When this is done, the top years include: 
+
+* 1962: The Sino-Indian War;
+* 2004: General elections return a Congress government after the first period of BJP rule; 
+* 2002: Standoff between India and Pakistan in Kashmir (The communal violence in Gujarat was not front page news);
+* 1930: A major year in Gandhi's civil disobedience movement, including the Salt March;
+* 1965: War between India and Pakistan.
+
+Other years with even more momentous events (e.g. 1947) have actually far fewer front page articles.
+
+```{r timeline_front_page, out.width = "90%"}
+```
