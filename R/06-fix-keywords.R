@@ -46,12 +46,12 @@ nyt_fix_keywords <- function(consolidated_unnested_df,
     dplyr::group_by(url) %>%
     dplyr::mutate(rank = dplyr::row_number()) %>%
     dplyr::ungroup() %>%
-    mutate(
-      name = case_when(
+    dplyr::mutate(
+      name = dplyr::case_when(
         # keywords like "[country], relations with" should not be glocations
-        name == "glocations" & str_detect(value, "relations") ~ "subject",
+        name == "glocations" & stringr::str_detect(value, "relations") ~ "subject",
         # no use geocoding a keyword like "[some huge geo] areas"
-        name == "glocations" & str_detect(value, "areas") ~ "subject",
+        name == "glocations" & stringr::str_detect(value, "areas") ~ "subject",
         TRUE ~ name
       )
     )
