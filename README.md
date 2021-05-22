@@ -132,7 +132,7 @@ nyt_download_shiny_files()
 
 The package includes a [shiny
 app](https://github.com/seanangio/nytindia/tree/master/inst/examples/nyt_india_app)
-to visualize the results in many ways.
+to visualize the results in many different ways.
 
 <img src="/Users/seanangiolillo/Google Drive/nytindia/inst/examples/nyt_india_app/screenshots/nyt-india-app-homepage.png" width="100%" />
 

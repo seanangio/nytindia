@@ -114,9 +114,9 @@ nyt_download_shiny_files()
 
 ## Run the Shiny App
 
-The package includes a [shiny app](https://github.com/seanangio/nytindia/tree/master/inst/examples/nyt_india_app) to visualize the results in many ways.
+The package includes a [shiny app](https://github.com/seanangio/nytindia/tree/master/inst/examples/nyt_india_app) to visualize the results in many different ways.
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, out.width = '100%'}
 library(here)
 homepage <- here("inst", "examples", "nyt_india_app", "screenshots", "nyt-india-app-homepage.png")
 knitr::include_graphics(homepage)
