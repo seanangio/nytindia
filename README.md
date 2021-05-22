@@ -134,6 +134,8 @@ The package includes a [shiny
 app](https://github.com/seanangio/nytindia/tree/master/inst/examples/nyt_india_app)
 to visualize the results in many ways.
 
+<img src="/Users/seanangiolillo/Google Drive/nytindia/inst/examples/nyt_india_app/screenshots/nyt-india-app-homepage.png" width="100%" />
+
 To run it locally, you’ll need the following packages included in the
 “Suggests” section of this package’s DESCRIPTION file.
 
