@@ -145,3 +145,24 @@ Other years with even more momentous events (e.g. 1947) have actually far fewer 
 
 ```{r timeline_front_page, out.width = "90%"}
 ```
+
+## Map Analysis
+
+The main conclusion to draw from plotting all location keywords on a map is not a surprising one. Pakistan and Kashmir have been the overwhelming focus of the NYT's coverage of India.
+
+```{r out.width = "90%"}
+knitr::include_graphics("../inst/examples/nyt_india_app/screenshots/nyt-india-app-map.png")
+```
+
+The same point can be ascertained more clearly from the **Counts** tab.
+
+```{r location_counts, out.width = "90%"}
+```
+
+When creating the map, I scaled the bubbles with a square root function to overcome the vast disparity between the counts of the top locations like Pakistan compared locations that might only appear once.
+
+There's not too much to be that needs to be said about the map. I chose the Mapquest API for geocoding without a lot of research. There's definitely a fair amount of errors, and so perhaps in future I'll try another geocoder.
+
+One interesting use case for the map is to find a rare location, click to filter, and then check the table for articles. For example, filtering for Jodhpur returns just [one article](https://www.nytimes.com/1926/01/11/archives/toy-railroad-for-a-rajah-line-in-jodhpur-half-a-mile-long-will-cost.html) from 1926.
+
+> TOY RAILROAD FOR A RAJAH.; Line In Jodhpur, Half a Mile Long, Will Cost $17,500.

@@ -13,6 +13,7 @@ library(ggiraph)
 library(dygraphs)
 library(tsbox)
 library(lubridate)
+library(forcats)
 
 full_nested_df <- read_rds(here("inst","examples",
                                 "nyt_india_app",
@@ -238,3 +239,86 @@ full_nested_df %>%
   count(time) %>%
   ts_xts() %>%
   draw_front_page_dygraph()
+
+## @knitr location_counts
+count_df <- full_nested_df %>%
+  unnest(keywords) %>%
+  filter(name == "glocations",
+         value != "india") %>%
+  count(value, sort = TRUE)
+
+trim_count_df <- count_df %>%
+  slice_head(n = 15) %>%
+  mutate(tip = str_c(.[[1]], ": ",
+                     scales::number(n,
+                            accuracy = 1,
+                            big.mark = ",")))
+
+get_subtitle_str <- function(count_df, n_obs) {
+  if (nrow(count_df) <= n_obs) {
+    NULL
+  } else {
+    var <- names(count_df)[1]
+    left_out <- format(nrow(count_df) - n_obs, big.mark = ",")
+
+    if (var %in% c("india_rank", "max_kword", "front_page")) {
+      NULL
+    } else if (var %in% c("news_desk", "section", "material", "byline")) {
+      if (left_out == 1) {
+        str_glue('{left_out} category in "Other"')
+      } else {
+        str_glue('{left_out} categories in "Other"')
+      }
+    } else {
+      if (left_out == 1) {
+        str_glue("{left_out} other not shown")
+      } else {
+        str_glue("{left_out} others not shown")
+      }
+    }
+  }
+}
+sub_title <- get_subtitle_str(count_df, 15)
+
+location_count_gg <- trim_count_df %>%
+  ggplot(aes(
+    x = fct_reorder(value, n),
+    y = n
+  )) +
+  guides(fill = FALSE) +
+  geom_col_interactive(aes(
+    tooltip = tip,
+    data_id = value,
+    fill = "#D95F02"
+  )) +
+  # scale_fill_manual(
+  #   values = "#D95F02"#keyword_pal,
+  #   #limits = names(keyword_pal)
+  # ) +
+  scale_y_continuous("Number of Articles",
+                     labels = scales::comma
+  ) +
+  scale_x_discrete(labels = function(x) str_wrap(x,
+                                                 width = 30)) +
+  coord_flip() +
+  labs(
+    x = NULL,
+    title = str_glue("Frequency of Location Keywords among all Articles"),
+    subtitle = sub_title
+  ) +
+  theme_classic(base_size = 24) + #16
+  theme(
+    # fix weird alignment when deployed
+    axis.text.y = element_text(hjust = 0.89)
+  )
+
+girafe(
+  ggobj = location_count_gg,
+  width_svg = 15, #11
+  height_svg = 10, #9
+  options = list(
+    opts_hover(
+      css = str_glue("fill:#a6cee3;stroke:gray;stroke-width:2;")
+    )
+  )
+)
