@@ -30,6 +30,7 @@ nyt_download_shiny_files <- function(shiny_app_folder = "nyt_shiny_app") {
   filenames <- stringr::str_subset(full_repo_filelist,
                                    my_shiny_folder_repo_path) %>%
     stringr::str_subset("^(?!.*rds)") %>% # get rid of data files
+    stringr::str_subset("^(?!.*screenshots)") %>% # get rid of screenshots
     stringr::str_subset("\\.") %>% # get rid of directories
     stringr::str_replace(my_shiny_folder_repo_path, "") # get filenames
 
