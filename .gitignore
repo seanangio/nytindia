@@ -5,5 +5,4 @@
 .DS_Store
 README.Rmd
 inst/doc
-docs
 inst/examples/analysis_code/analysis_draft.Rmd
