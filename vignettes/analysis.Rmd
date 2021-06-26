@@ -15,7 +15,7 @@ opts_chunk$set(
   comment = "#>",
   echo = FALSE,
   message = FALSE,
-  out.width = "70%"
+  out.width = "90%"
 )
 library(here)
 library(scales)
@@ -34,9 +34,9 @@ The analysis here only reflects data up to and including 2020.
 
 ## Goals
 
-At the outset of this project, my objective was to  characterize the coverage of India in The New York Times. Specifically,
+At the outset of this project, my objective was to  characterize the coverage of India in the New York Times. Specifically,
 
-- Has there been a change over time in the amount of coverage that The New York Times has devoted to India?
+- Has there been a change over time in the amount of coverage that the New York Times has devoted to India?
 - In addition to observing the most frequent topics, what keywords appear together most often?
 - Is it possible to discern any differences in the nature of coverage between the news and editorial desks?
 
@@ -46,7 +46,7 @@ The ability to answer big questions like these depends heavily on the extent to 
 
 Before drawing any conclusions from the visualizations, it is important to recognize that certain qualities about the data returned from the API, at the very least, complicate long-term comparisons. Although data is available as far back as 1860, the nature of data returned from the API over time includes significant changes. 
 
-### Changes to Keyword Tagging
+### Changes to Keyword Tagging {#keyword_tagging_changes}
 
 ```{r keyword_changes}
 ```
@@ -76,7 +76,7 @@ The level of specificity in categorizing an article also improves over time. Rec
 - Before 1981, the only *section* value is "Archives". 
 - Before 1964, the only *material* value is "Archives". 
 
-Accordingly, applying a filter of "Foreign" *news_desk* removes any article before 1981. Using a combination of the app's **Counts**, **Timeline**, and **Table** tabs allows one to sense-check the applied filters.
+Accordingly, applying a filter of "Foreign" *news_desk* removes any article before 1981. Using a combination of the **Counts**, **Timeline**, and **Table** tabs allows one to sense-check the applied filters.
 
 ### Changes to Text Values
 
@@ -117,9 +117,10 @@ To give another example, letters to the editor are treated as separate "articles
 
 Can we identify trends in the quantity of coverage that the New York Times has devoted to India? 
 
-At first glance, it appears that the peak of India coverage came around 2012-2014. However, the shift to (and later shift away from) blogging complicates this understanding. The NYT [India Ink blog](https://india.blogs.nytimes.com) ran from September 2011 to June 2014. 
+A first glance at the Timeline tab suggests the peak of India coverage came around 2012-2014. However, the shift to (and later shift away from) blogging complicates this understanding. The NYT [India Ink blog](https://india.blogs.nytimes.com) ran from September 2011 to June 2014. 
 
 ```{r india_ink}
+# here for the inline figures below
 ```
 
 This was a period of intense coverage -- `r scales::comma(india_ink$n)` posts over `r scales::comma(india_ink$interval)` days, or `r round(india_ink$posts_per_day, 1)` posts per day.There are important reasons why the NYT devoted these resources to India during this time period. The lead up to the 2014 general elections (which elected a majority BJP government for the first time in history) is certainly one key story line.
@@ -128,10 +129,10 @@ For long term comparisons, however, digital-only content is somewhat of an apple
 
 After removing blogs from the trend of printed news, the picture is very different. 2012-2014 no longer stands out as exceptional. Of course, if the India Ink blog was not running, perhaps more print articles would have been published during this same time period.
 
-```{r timeline_printed, out.width = "90%"}
+```{r timeline_printed}
 ```
 
-The closest apples-to-apples comparison is to restrict the pool of articles to front page news. In addition, for the numbers below, I removed articles that include "World Business Briefing" in the headline, which was a short roundup of business stories from around the world that commonly landed on the front page during some years-- not exactly big India stories. 
+The closest apples-to-apples comparison is to restrict the pool of articles to front page news. In addition, the front page news category excludes articles that include "World Business Briefing" in the headline, which was a short roundup of business stories from around the world that commonly landed on the front page during some years-- but not exactly big India stories. 
 
 When this is done, the top years include: 
 
@@ -143,20 +144,17 @@ When this is done, the top years include:
 
 Other years with even more momentous events (e.g. 1947) have actually far fewer front page articles.
 
-```{r timeline_front_page, out.width = "90%"}
-```
-
 ## Map Analysis
 
 The main conclusion to draw from plotting all location keywords on a map is not a surprising one. Pakistan and Kashmir have been the overwhelming focus of the NYT's coverage of India.
 
-```{r out.width = "90%"}
+```{r}
 knitr::include_graphics("../inst/examples/nyt_india_app/screenshots/nyt-india-app-map.png")
 ```
 
 The same point can be ascertained more clearly from the **Counts** tab.
 
-```{r location_counts, out.width = "90%"}
+```{r location_counts}
 ```
 
 When creating the map, I scaled the bubbles with a square root function to overcome the vast disparity between the counts of the top locations like Pakistan compared locations that might only appear once.
@@ -166,3 +164,44 @@ There's not too much to be that needs to be said about the map. I chose the Mapq
 One interesting use case for the map is to find a rare location, click to filter, and then check the table for articles. For example, filtering for Jodhpur returns just [one article](https://www.nytimes.com/1926/01/11/archives/toy-railroad-for-a-rajah-line-in-jodhpur-half-a-mile-long-will-cost.html) from 1926.
 
 > TOY RAILROAD FOR A RAJAH.; Line In Jodhpur, Half a Mile Long, Will Cost $17,500.
+
+## Keyword Analysis
+
+Among all of the data returned from the API, keywords are perhaps the most interesting. Every article contains a list of keywords categorized by type and ranked by importance. Once [cleaned](https://seanangio.github.io/nytindia/articles/technical-details.html#consolidating-categories), and changes in [tagging practices](#keyword_tagging_changes) over time are understood, it's a very rich source of data.
+
+### Keyword Timeline Analysis
+
+The initial bar chart found in the Counts tab when plotting all keywords is not particularly captivating. The ubiquitous keyword "politics and government" dwarfs other topics.
+
+```{r keyword_counts}
+```
+
+Just a little digging though can reveal some interesting insights. For example, filtering for only articles that include a "kashmir and jammu (india)" keyword reveals a dramatic spikes in coverage, mirroring conflicts in the region.
+
+```{r jk_timeline}
+```
+
+Converting keyword counts to a percentage is also a good gauge of what topics have commanded the most attention at a particular period of time.
+
+Taking just the last 20 years, one can see how a few select keywords have risen or fallen out of the story. For example, one can see the steep rise of attention towards Narendra Modi beginning after 2010.
+
+```{r keyword_timeline}
+```
+
+### Keyword Network Analysis
+
+Keyword counts (and counts converted to percentages) show general trends among topics. However, this kind of data can also be visualized as a network. Thinking this way can reveal which keywords tend to appear with other keywords.
+
+Creating a [network analysis graph](https://kateto.net/network-visualization) for this data that is not an uninterpretable hairball might be a future challenge. A heatmap though that quantifies the relationship between two keywords is a good start.  
+
+```{r keyword_heatmap_stats}
+# needed for inline stats below
+```
+
+The heatmap tab takes a moment to comprehend. To take an easy example, when viewing all articles, the heatmap shows that `r keyword_tip`. We know that "politics and government" is the most common keywor overall (found in `r round(politics_pct, 1)`% of all articles) so this is not too surprising. Similarly, articles with the keyword "united states international relations" also often have the keyword "pakistan".
+
+```{r keyword_heatmap}
+```
+
+
+
