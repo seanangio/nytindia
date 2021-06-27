@@ -10,35 +10,29 @@ vignette: >
 
 ```{r, include = FALSE}
 library(knitr)
+library(here)
+library(scales)
 opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   echo = FALSE,
   message = FALSE,
-  out.width = "90%"
+  out.width = "10%"
 )
-library(here)
-library(scales)
 # https://github.com/r-lib/pkgdown/issues/1159
 do.call(read_chunk, 
         list(path = here("inst","examples",
-                         "analysis_code","analysis_code.R")))
+                       "analysis_code","analysis_code.R")))
 ```
 
-## This is a work in progress.
-
-```{r read_data, message=FALSE}
+```{r read_data}
 ```
-
-The analysis here only reflects data up to and including 2020.
 
 ## Goals
 
-At the outset of this project, my objective was to  characterize the coverage of India in the New York Times. Specifically,
+At the outset of this project, my objective was to  characterize the coverage of India in the New York Times. Specifically, has there been a change over time in the amount of coverage that the New York Times has devoted to India? In addition to quantifying the frequency of topics, which keywords appear together most often?
 
-- Has there been a change over time in the amount of coverage that the New York Times has devoted to India?
-- In addition to observing the most frequent topics, what keywords appear together most often?
-- Is it possible to discern any differences in the nature of coverage between the news and editorial desks?
+*The analysis here only reflects data up to and including 2020.*
 
 ## Before Browsing
 
