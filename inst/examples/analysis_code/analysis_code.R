@@ -44,21 +44,21 @@ avg_kw_2020 <- round(avg_kw[ which(avg_kw$year=="2020"),][["avg_kw"]], digits = 
 
 ## @knitr avg_keywords
 
-draw_girafe <- function(gg) {
-  girafe(
-    ggobj = gg,
-    width_svg = 15, #11
-    height_svg = 10, #9
-    options = list(
-      opts_hover(
-        #css = str_glue("fill:#a6cee3;stroke:gray;stroke-width:2;")
-        css = "fill:#a6cee3;stroke:gray;stroke-width:2;"
-      ),
-      # turn off for heatmap...
-      opts_hover_inv(css = "opacity:0.1;")
-    )
-  )
-}
+# draw_girafe <- function(gg) {
+#   girafe(
+#     ggobj = gg,
+#     width_svg = 15, #11
+#     height_svg = 10, #9
+#     options = list(
+#       opts_hover(
+#         #css = str_glue("fill:#a6cee3;stroke:gray;stroke-width:2;")
+#         css = "fill:#a6cee3;stroke:gray;stroke-width:2;"
+#       ),
+#       # turn off for heatmap...
+#       opts_hover_inv(css = "opacity:0.1;")
+#     )
+#   )
+# }
 
 avg_keywords_gg <- full_nested_df %>%
     mutate(year = as.integer(format(pub_date, "%Y"))) %>%
@@ -69,14 +69,14 @@ avg_keywords_gg <- full_nested_df %>%
     ggplot(aes(x = year, y = avg_kw)) +
     geom_point_interactive(aes(tooltip = tip,
                                data_id = tip),
-                           size = my_point_size+1) +
+                           size = my_point_size) +
     scale_x_continuous("") +
     scale_y_continuous("Average keywords per article") +
     ggtitle("The avg. keywords per article has increased dramatically over time.") +
-    theme_classic(base_size = my_base_size) +
-    theme(axis.text=element_text(size=28),
-         axis.title=element_text(size=30)
-         )
+    theme_classic(base_size = my_base_size)# +
+    # theme(axis.text=element_text(size=28),
+    #      axis.title=element_text(size=30)
+    #      )
 
 girafe(
   ggobj = avg_keywords_gg,
@@ -179,10 +179,10 @@ avg_word_count_gg <- full_nested_df %>%
     theme_classic(base_size = my_base_size) +
     theme(
         legend.title = element_blank(),
-        legend.position="top",
-        axis.text=element_text(size=28),
-        axis.title=element_text(size=30),
-        legend.text=element_text(size=28)
+        legend.position="top"#,
+        # axis.text=element_text(size=28),
+        # axis.title=element_text(size=30),
+        # legend.text=element_text(size=28)
     ) +
     guides(color= guide_legend(override.aes = list(size = 5)))
 
@@ -274,10 +274,10 @@ timeline_gg <- full_nested_df %>%
   labs(title = "The India Ink blog inflates the 'article' count for 2012-14.") +
   theme_classic(base_size = 24) +
   theme(
-    legend.position="top",
-    axis.text=element_text(size=28),
-    axis.title=element_text(size=30),
-    legend.text=element_text(size=28)
+    legend.position="top"#,
+    # axis.text=element_text(size=28),
+    # axis.title=element_text(size=30),
+    # legend.text=element_text(size=28)
   ) +
   guides(color = guide_legend(override.aes = list(size = 5)))
 
@@ -355,11 +355,11 @@ location_count_gg <- trim_count_df %>%
     title = str_glue("Frequency of Location Keywords among all Articles"),
     subtitle = sub_title
   ) +
-  theme_classic(base_size = my_base_size) +
-  theme(
-    axis.text=element_text(size=24),
-    axis.title=element_text(size=26)
-  )
+  theme_classic(base_size = my_base_size)# +
+  # theme(
+  #   axis.text=element_text(size=24),
+  #   axis.title=element_text(size=26)
+  # )
 
 girafe(
   ggobj = location_count_gg,
@@ -398,11 +398,11 @@ keyword_counts_gg <- full_nested_df %>%
   ) +
   labs(title = "Among all articles, 'politics and government' \nis a near ubiquitous keyword.") +
   coord_flip() +
-  theme_classic(base_size = my_base_size) +
-  theme(
-    axis.text=element_text(size=24),
-    axis.title=element_text(size=26)
-  )
+  theme_classic(base_size = my_base_size)# +
+  # theme(
+  #   axis.text=element_text(size=24),
+  #   axis.title=element_text(size=26)
+  # )
 
 girafe(
   ggobj = keyword_counts_gg,
@@ -427,7 +427,7 @@ jk_timeline_gg <- full_nested_df %>%
   geom_point_interactive(aes(
     tooltip = tip,
     data_id = tip
-  ), size = my_point_size+1) +
+  ), size = my_point_size) +
   geom_line() +
   scale_x_continuous(NULL) +
   scale_y_continuous("Number of Appearances") +
@@ -505,11 +505,11 @@ keyword_timeline_gg <- full_nested_df %>%
   scale_y_continuous("Percentage of Articles including Keyword") +
   scale_x_continuous("") +
   ggtitle("In relative terms, a keyword like 'Modi, Narendra' has risen and \n'Pakistan' has fallen over the past 20 years.") +
-  theme_classic(base_size = 24) +
-  theme(
-    axis.text=element_text(size=24),
-    axis.title=element_text(size=26)
-  )
+  theme_classic(base_size = 24) #+
+  # theme(
+  #   axis.text=element_text(size=24),
+  #   axis.title=element_text(size=26)
+  # )
 
 girafe(
   ggobj = keyword_timeline_gg,
@@ -618,8 +618,8 @@ heatmap_gg <- ggplot(
   theme_classic(base_size = my_base_size) +
   theme(
     legend.title = element_blank(),
-    legend.key.size = unit(1.5, "cm"),
-    axis.text=element_text(size=24)
+    legend.key.size = unit(1.5, "cm")#,
+    #axis.text=element_text(size=24)
   ) +
   guides(x = guide_axis(angle = 45))
 
